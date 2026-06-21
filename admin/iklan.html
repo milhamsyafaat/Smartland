@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Iklan Properti — SMARTLAND Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body { font-family: var(--font-body); background: var(--bg); }
+    h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
+    .table-row-hover:hover { background: var(--card-hover); }
+  </style>
+</head>
+<body>
+<div id="grain"></div>
+
+<!-- FLUID ISLAND NAV -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      SMARTLAND
+    </a>
+    <div class="navbar-links">
+      <a href="index.html" class="navbar-link" data-page="admin">Admin</a>
+      <a href="harga.html" class="navbar-link" data-page="harga">Harga</a>
+      <a href="iklan.html" class="navbar-link" data-page="iklan">Iklan</a>
+      <a href="pengukuran.html" class="navbar-link" data-page="pengukuran">Pengukuran</a>
+      <a href="login.html" class="navbar-link" onclick="localStorage.removeItem('smartland_admin');">Logout</a>
+    </div>
+    <button class="navbar-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE OVERLAY -->
+<div class="nav-overlay" id="nav-overlay">
+  <a href="index.html" class="nav-overlay-link" data-page="admin">Admin</a>
+  <a href="harga.html" class="nav-overlay-link" data-page="harga">Harga</a>
+  <a href="iklan.html" class="nav-overlay-link" data-page="iklan">Iklan</a>
+  <a href="pengukuran.html" class="nav-overlay-link" data-page="pengukuran">Pengukuran</a>
+  <a href="login.html" class="nav-overlay-link" onclick="localStorage.removeItem('smartland_admin');">Logout</a>
+</div>
+
+<!-- MAIN -->
+<main class="container-wide" style="padding-top: 6rem; padding-bottom: 3rem;">
+
+  <!-- SECTION 1 — PAGE HEADER -->
+  <section style="margin-bottom: 3rem;">
+    <span class="eyebrow">Admin Panel</span>
+    <h1>Iklan Properti</h1>
+    <p style="margin-top: 0.5rem;">Kelola daftar iklan properti SMARTLAND</p>
+  </section>
+
+  <!-- SECTION 2 — FORM TAMBAH/EDIT -->
+  <section style="margin-bottom: 2.5rem;">
+    <div class="dobel">
+      <div class="dobel-core">
+        <h2 style="font-size: 1.2rem; margin-bottom: 1.5rem;">Tambah / Edit Iklan</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div>
+            <label class="form-label">Judul Iklan</label>
+            <input id="input-judul" type="text" placeholder="Masukkan judul iklan" class="form-input">
+          </div>
+          <div>
+            <label class="form-label">Nama Agency</label>
+            <input id="input-agency" type="text" placeholder="Nama agen properti" class="form-input">
+          </div>
+          <div>
+            <label class="form-label">Harga Properti</label>
+            <input id="input-harga" type="number" placeholder="Rp ..." class="form-input">
+          </div>
+          <div>
+            <label class="form-label">Link / URL</label>
+            <input id="input-link" type="text" placeholder="https://..." class="form-input">
+          </div>
+        </div>
+        <div class="mt-6">
+          <button id="btn-submit" class="btn btn-primary">Tambah</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 — TABEL IKLAN -->
+  <section>
+    <div class="dobel">
+      <div class="dobel-core" style="padding: 0;">
+        <div style="padding: 1.5rem 2rem; border-bottom: 1px solid var(--border);">
+          <h2 style="font-size: 1.2rem; margin: 0;">Daftar Iklan</h2>
+        </div>
+        <div class="table-wrapper" style="border: none; border-radius: 0;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Judul</th>
+                <th>Agency</th>
+                <th>Harga</th>
+                <th>Link</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="iklan-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container-wide">
+    <div class="compass-divider">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6h16.5M3.75 12h16.5m-16.5 6h16.5"/>
+      </svg>
+    </div>
+    <div class="flex items-center justify-center gap-6" style="margin-bottom: 1rem;">
+      <a href="index.html">Admin</a>
+      <a href="harga.html">Harga</a>
+      <a href="iklan.html">Iklan</a>
+      <a href="pengukuran.html">Pengukuran</a>
+    </div>
+    <p class="text-center" style="font-size: 0.8rem; color: var(--text-tertiary);">&copy; 2026 SMARTLAND. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  if (localStorage.getItem('smartland_admin') !== 'true') { window.location.href = 'login.html'; }
+
+  function formatRupiah(angka) {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(angka);
+  }
+
+  function loadData() {
+    const data = JSON.parse(localStorage.getItem('smartland_iklan') || '[]');
+    const tbody = document.getElementById('iklan-body');
+    if (data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8" style="color:var(--text-tertiary);">Belum ada iklan</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.map((item, i) => `
+      <tr class="table-row-hover">
+        <td>${i+1}</td>
+        <td>${item.judul}</td>
+        <td>${item.agency}</td>
+        <td class="font-mono">${formatRupiah(item.harga)}</td>
+        <td><a href="${item.link}" target="_blank" style="color:var(--accent);text-decoration:underline;">Link</a></td>
+        <td>
+          <button onclick='editData(${item.id})' class="btn btn-primary" style="padding:0.25rem 0.75rem;font-size:0.75rem;border-radius:var(--radius-pill);">Edit</button>
+          <button onclick='hapusData(${item.id})' style="background:rgba(220,38,38,0.15);color:#ef4444;border:none;padding:0.25rem 0.75rem;font-size:0.75rem;border-radius:var(--radius-pill);cursor:pointer;font-family:var(--font-body);">Hapus</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  let editId = null;
+
+  function tambahData() {
+    const judul = document.getElementById('input-judul').value.trim();
+    const agency = document.getElementById('input-agency').value.trim();
+    const harga = parseInt(document.getElementById('input-harga').value);
+    const link = document.getElementById('input-link').value.trim();
+    if (!judul || !agency || !harga) { alert('Lengkapi data!'); return; }
+
+    let data = JSON.parse(localStorage.getItem('smartland_iklan') || '[]');
+
+    if (editId) {
+      const idx = data.findIndex(d => d.id === editId);
+      if (idx >= 0) { data[idx] = { ...data[idx], judul, agency, harga, link }; }
+      editId = null;
+      document.getElementById('btn-submit').textContent = 'Tambah';
+    } else {
+      data.push({ id: Date.now(), judul, agency, harga, link });
+    }
+
+    localStorage.setItem('smartland_iklan', JSON.stringify(data));
+    document.getElementById('input-judul').value = '';
+    document.getElementById('input-agency').value = '';
+    document.getElementById('input-harga').value = '';
+    document.getElementById('input-link').value = '';
+    loadData();
+  }
+
+  function editData(id) {
+    const data = JSON.parse(localStorage.getItem('smartland_iklan') || '[]');
+    const item = data.find(d => d.id === id);
+    if (!item) return;
+    document.getElementById('input-judul').value = item.judul;
+    document.getElementById('input-agency').value = item.agency;
+    document.getElementById('input-harga').value = item.harga;
+    document.getElementById('input-link').value = item.link || '';
+    editId = id;
+    document.getElementById('btn-submit').textContent = 'Simpan';
+  }
+
+  function hapusData(id) {
+    if (!confirm('Hapus iklan ini?')) return;
+    let data = JSON.parse(localStorage.getItem('smartland_iklan') || '[]');
+    data = data.filter(d => d.id !== id);
+    localStorage.setItem('smartland_iklan', JSON.stringify(data));
+    loadData();
+  }
+
+  document.getElementById('btn-submit').addEventListener('click', tambahData);
+
+  loadData();
+</script>
+<script src="../js/script.js"></script>
+</body>
+</html>

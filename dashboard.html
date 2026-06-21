@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartLand — Platform digital untuk pengukuran tanah, estimasi nilai properti, dan laporan berbasis peta interaktif.">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316a34a'/><text x='16' y='22' font-size='20' text-anchor='middle' fill='white' font-family='serif'>S</text></svg>">
+  <title>Dashboard — SmartLand</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .dash-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; border-top: 3px solid var(--primary); }
+    .dash-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .dash-card-title { font-weight: 600; font-size: 1rem; }
+    .dash-stat { font-size: clamp(0.85rem, 3.5vw, 1.35rem); font-weight: 700; font-family: var(--font-mono); overflow-wrap: break-word; word-break: break-word; }
+    .dash-stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); font-weight: 600; }
+    .dash-trend { font-size: 0.8rem; display: flex; align-items: center; gap: 0.25rem; }
+    .dash-trend.up { color: #10b981; }
+    .dash-trend.down { color: #ef4444; }
+    .chart-container { position: relative; height: 200px; width: 100%; }
+    .activity-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .activity-dot.blue { background: var(--primary); }
+    .activity-dot.orange { background: var(--accent); }
+    .activity-dot.green { background: #10b981; }
+    .quick-action { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border-radius: var(--radius-md); background: var(--bg-secondary); cursor: pointer; transition: all var(--transition-fast); text-decoration: none; color: var(--text); }
+    .quick-action:hover { background: var(--card-hover); transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+
+<div id="grain"></div>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      SMARTLAND
+    </a>
+    <nav class="navbar-links">
+      <a href="index.html" class="navbar-link" data-page="index">Beranda</a>
+      <a href="tentang.html" class="navbar-link" data-page="tentang">Tentang</a>
+      <a href="dashboard.html" class="navbar-link active" data-page="dashboard">Dashboard</a>
+      <a href="ukur.html" class="navbar-link" data-page="ukur">Ukur Tanah</a>
+      <a href="estimasi.html" class="navbar-link" data-page="estimasi">Estimasi</a>
+      <a href="laporan.html" class="navbar-link" data-page="laporan">Laporan</a>
+      <a href="alur.html" class="navbar-link" data-page="alur">Alur</a>
+      <a href="bisnis.html" class="navbar-link" data-page="bisnis">Bisnis</a>
+      <a href="admin/" class="navbar-link" data-page="admin" title="Admin">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </a>
+    </nav>
+    <button class="navbar-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+    </button>
+  </div>
+</header>
+
+<div class="nav-overlay" id="nav-overlay">
+  <a href="index.html" class="nav-overlay-link" data-page="index">Beranda</a>
+  <a href="tentang.html" class="nav-overlay-link" data-page="tentang">Tentang</a>
+  <a href="dashboard.html" class="nav-overlay-link active" data-page="dashboard">Dashboard</a>
+  <a href="ukur.html" class="nav-overlay-link" data-page="ukur">Ukur Tanah</a>
+  <a href="estimasi.html" class="nav-overlay-link" data-page="estimasi">Estimasi</a>
+  <a href="laporan.html" class="nav-overlay-link" data-page="laporan">Laporan</a>
+  <a href="alur.html" class="nav-overlay-link" data-page="alur">Alur</a>
+  <a href="bisnis.html" class="nav-overlay-link" data-page="bisnis">Bisnis</a>
+  <a href="admin/" class="nav-overlay-link" data-page="admin">Admin</a>
+</div>
+
+<main>
+  <!-- PAGE HEADER -->
+  <section class="section pt-28 md:pt-36">
+    <div class="container-wide">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-bold" style="font-family: var(--font-display);">Dashboard</h1>
+          <p style="color: var(--text-secondary); margin-top: 0.5rem;">Ringkasan aktivitas pengukuran dan estimasi tanah.</p>
+        </div>
+        <a href="ukur.html" class="btn btn-primary" style="white-space: nowrap;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Ukur Tanah Baru
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS ROW -->
+  <section class="section pt-0">
+    <div class="container-wide">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="dash-card reveal">
+          <div class="dash-stat-label">Total Pengukuran</div>
+          <div class="dash-stat" style="color: var(--primary);" id="dash-total-count">0</div>
+          <div class="dash-trend up" id="dash-trend-count">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+            Dari tersimpan
+          </div>
+        </div>
+        <div class="dash-card reveal reveal-delay-1">
+          <div class="dash-stat-label">Total Luas</div>
+          <div class="dash-stat" style="color: #10b981;" id="dash-total-area">0 m²</div>
+          <div class="dash-trend up">Seluruh pengukuran</div>
+        </div>
+        <div class="dash-card reveal reveal-delay-2">
+          <div class="dash-stat-label">Total Nilai</div>
+          <div class="dash-stat" style="color: var(--accent);" id="dash-total-value">Rp 0</div>
+          <div class="dash-trend up">Estimasi kumulatif</div>
+        </div>
+        <div class="dash-card reveal reveal-delay-3">
+          <div class="dash-stat-label">Rata-rata Luas</div>
+          <div class="dash-stat" id="dash-avg-area">0 m²</div>
+          <div class="dash-trend">Per pengukuran</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHARTS + ACTIVITY -->
+  <section class="section pt-0">
+    <div class="container-wide">
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Chart -->
+        <div class="dash-card md:col-span-2 reveal">
+          <div class="dash-card-header">
+            <span class="dash-card-title">Riwayat Pengukuran</span>
+            <span style="font-size: 0.8rem; color: var(--text-tertiary);">7 hari terakhir</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="measurement-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="dash-card reveal reveal-delay-1">
+          <div class="dash-card-header">
+            <span class="dash-card-title">Aktivitas Terbaru</span>
+          </div>
+          <div id="recent-activity">
+            <div style="padding: 1rem 0; text-align: center; color: var(--text-tertiary); font-size: 0.9rem;">Belum ada aktivitas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK ACTIONS -->
+  <section class="section pt-0">
+    <div class="container-wide">
+      <div class="dash-card-header" style="margin-bottom: 1rem;">
+        <span class="dash-card-title">Aksi Cepat</span>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a href="ukur.html" class="quick-action reveal">
+          <span style="font-size: 1.5rem;">🗺️</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.9rem;">Ukur Tanah</div>
+            <div style="font-size: 0.75rem; color: var(--text-tertiary);">Mulai pengukuran baru</div>
+          </div>
+        </a>
+        <a href="laporan.html" class="quick-action reveal reveal-delay-1">
+          <span style="font-size: 1.5rem;">📄</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.9rem;">Lihat Laporan</div>
+            <div style="font-size: 0.75rem; color: var(--text-tertiary);">Riwayat pengukuran</div>
+          </div>
+        </a>
+        <a href="estimasi.html" class="quick-action reveal reveal-delay-2">
+          <span style="font-size: 1.5rem;">💰</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.9rem;">Estimasi</div>
+            <div style="font-size: 0.75rem; color: var(--text-tertiary);">Hitung nilai tanah</div>
+          </div>
+        </a>
+        <a href="alur.html" class="quick-action reveal reveal-delay-3">
+          <span style="font-size: 1.5rem;">📋</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.9rem;">Panduan</div>
+            <div style="font-size: 0.75rem; color: var(--text-tertiary);">Cara menggunakan</div>
+          </div>
+        </a>
+        <button onclick="resetAllData()" class="quick-action reveal reveal-delay-3" style="width: 100%; text-align: left; background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.15);" title="Hapus semua data pengukuran">
+          <span style="font-size: 1.5rem;">🗑️</span>
+          <div>
+            <div style="font-weight: 600; font-size: 0.9rem; color: #ef4444;">Hapus Semua Data</div>
+            <div style="font-size: 0.75rem; color: var(--text-tertiary);">Reset seluruh pengukuran</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<section class="section" style="background: var(--bg-secondary);">
+  <div class="container-wide">
+    <div class="grid md:grid-cols-3 gap-8">
+      <div>
+        <div style="margin-bottom: 1rem;">
+          <span style="font-weight: 700; font-size: 1.25rem; color: var(--primary);">SMARTLAND</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">Platform digital untuk pengukuran tanah dan estimasi nilai properti.</p>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4" style="font-family: var(--font-display);">Navigasi</h5>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <a href="index.html">Beranda</a>
+          <a href="tentang.html">Tentang</a>
+          <a href="ukur.html">Ukur Tanah</a>
+          <a href="laporan.html">Laporan</a>
+        </div>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4" style="font-family: var(--font-display);">Kontak</h5>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+          <span>SmartLand</span>
+          <span>© 2026 SmartLand</span>
+        </div>
+      </div>
+    </div>
+    <div class="compass-divider">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 2 12 12 16 14"/></svg>
+    </div>
+    <p style="text-align: center; font-size: 0.8rem; color: var(--text-tertiary);">SmartLand — Platform Pengukuran Tanah Digital</p>
+  </div>
+</section>
+
+<script src="js/script.js"></script>
+<script src="js/app.js"></script>
+<script>
+  (function() {
+    function updateDashboard() {
+      var history = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+      var totalCount = history.length;
+      var totalLuas = history.reduce(function(sum, h) { return sum + (h.luas || 0); }, 0);
+      var totalNilai = history.reduce(function(sum, h) { return sum + (h.nilai || 0); }, 0);
+
+      document.getElementById('dash-total-count').textContent = totalCount;
+      document.getElementById('dash-total-area').textContent = totalLuas > 10000 ? (totalLuas / 10000).toFixed(2) + ' ha' : totalLuas.toFixed(0) + ' m²';
+      document.getElementById('dash-total-value').textContent = 'Rp ' + totalNilai.toLocaleString('id-ID', { maximumFractionDigits: 0 });
+      document.getElementById('dash-avg-area').textContent = totalCount > 0 ? ((totalLuas / totalCount) > 10000 ? ((totalLuas / totalCount) / 10000).toFixed(2) + ' ha' : (totalLuas / totalCount).toFixed(0) + ' m²') : '0 m²';
+
+      // Recent activity
+      var activityEl = document.getElementById('recent-activity');
+      if (totalCount === 0) {
+        activityEl.innerHTML = '<div style="padding: 1rem 0; text-align: center; color: var(--text-tertiary); font-size: 0.9rem;">Belum ada aktivitas</div>';
+      } else {
+        var recent = [...history].reverse().slice(0, 5);
+        activityEl.innerHTML = recent.map(function(h) {
+          var dotColor = h.luas > 10000 ? 'green' : 'blue';
+          return '<div class="activity-item">' +
+            '<span class="activity-dot ' + dotColor + '"></span>' +
+            '<div style="flex: 1; min-width: 0;">' +
+              '<div style="font-weight: 500; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + h.lokasi + '</div>' +
+              '<div style="font-size: 0.75rem; color: var(--text-tertiary);">' + h.tanggal + ' — ' + (h.luas > 10000 ? (h.luas / 10000).toFixed(2) + ' ha' : h.luas.toFixed(0) + ' m²') + '</div>' +
+            '</div>' +
+            '<span style="font-size: 0.8rem; color: var(--accent); font-family: var(--font-mono);">Rp ' + h.nilai.toLocaleString('id-ID', { maximumFractionDigits: 0 }) + '</span>' +
+          '</div>';
+        }).join('');
+      }
+    }
+
+    updateDashboard();
+
+    // Chart
+    var ctx = document.getElementById('measurement-chart');
+    if (ctx) {
+      var history = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+      var dates = {};
+      history.forEach(function(h) { dates[h.tanggal] = (dates[h.tanggal] || 0) + 1; });
+      var labels = Object.keys(dates).slice(-7);
+      var data = labels.map(function(d) { return dates[d] || 0; });
+
+      var gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 200);
+      gradient.addColorStop(0, 'rgba(22, 163, 74, 0.25)');
+      gradient.addColorStop(1, 'rgba(22, 163, 74, 0.01)');
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels.length ? labels : ['Belum ada data'],
+          datasets: [{
+            label: 'Pengukuran',
+            data: labels.length ? data : [0],
+            fill: true,
+            backgroundColor: gradient,
+            borderColor: '#16a34a',
+            borderWidth: 2.5,
+            pointBackgroundColor: '#16a34a',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.4,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 800, easing: 'easeInOutQuart' },
+          plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(0,0,0,0.8)', titleFont: { size: 12 }, bodyFont: { size: 13 }, padding: 10, cornerRadius: 8 } },
+          scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1, color: '#9ca3af', font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.04)', drawBorder: false } },
+            x: { ticks: { color: '#9ca3af', font: { size: 11 } }, grid: { display: false } }
+          },
+          elements: { line: { borderJoinStyle: 'round' } }
+        }
+      });
+    }
+
+    // Re-run on storage change
+    window.addEventListener('storage', updateDashboard);
+  })();
+
+  function resetAllData() {
+    if (confirm('Hapus semua data pengukuran? Tindakan ini tidak bisa dibatalkan.')) {
+      if (confirm('Yakin? Semua data pengukuran, estimasi, dan laporan akan hilang.')) {
+        localStorage.removeItem('smartland_measurements');
+        location.reload();
+      }
+    }
+  }
+</script>
+</body>
+</html>

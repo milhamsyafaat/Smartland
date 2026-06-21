@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>login admin — SMARTLAND</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: var(--bg);
+    }
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+    }
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .login-header .login-brand {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.75rem;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+    .login-header .login-sub {
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      color: var(--text-secondary);
+      max-width: none;
+    }
+    .login-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .error-msg {
+      display: none;
+      text-align: center;
+      padding: 0.7rem 1rem;
+      border-radius: var(--radius-md);
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .error-msg.hidden { display: none; }
+    .login-back {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    .login-back a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent);
+      transition: opacity 0.3s;
+    }
+    .login-back a:hover { opacity: 0.7; }
+    .login-back svg {
+      width: 14px;
+      height: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="grain"></div>
+
+<div class="login-page">
+  <div class="login-card dobel">
+    <div class="dobel-core" style="padding: 2.5rem;">
+      <div class="login-header">
+        <div class="login-brand">SMARTLAND</div>
+        <p class="login-sub">Admin Panel</p>
+      </div>
+
+      <div class="login-title">Login Admin</div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" required autocomplete="username"
+                 class="form-input" placeholder="Masukkan username">
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" required autocomplete="current-password"
+                 class="form-input" placeholder="Masukkan password">
+        </div>
+
+        <div id="error-msg" class="error-msg hidden">Username atau password salah.</div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;">
+          Masuk
+        </button>
+      </form>
+
+      <div class="login-back">
+        <a href="../index.html">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+          Kembali ke Beranda
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    if (localStorage.getItem('smartland_admin') === 'true') {
+      window.location.href = 'index.html';
+      return;
+    }
+
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      if (user === 'admin' && pass === 'smartland123') {
+        localStorage.setItem('smartland_admin', 'true');
+        window.location.href = 'index.html';
+      } else {
+        document.getElementById('error-msg').classList.remove('hidden');
+      }
+    });
+  })();
+</script>
+</body>
+</html>

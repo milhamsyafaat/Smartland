@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartLand — Platform digital untuk pengukuran tanah, estimasi nilai properti, dan laporan berbasis peta interaktif.">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316a34a'/><text x='16' y='22' font-size='20' text-anchor='middle' fill='white' font-family='serif'>S</text></svg>">
+  <title>SmartLand — Mockup Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .btn-download {
+      background: var(--accent);
+      color: #F5EFE6;
+      padding: 8px 24px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-download:hover { opacity: 0.85; transform: translateY(-1px); }
+    canvas { border-radius: 12px; box-shadow: var(--shadow-card); width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+
+  <div id="grain"></div>
+
+  <!-- ==================== FLUID ISLAND NAV ==================== -->
+  <header class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">
+        SMARTLAND
+      </a>
+      <nav class="navbar-links">
+        <a href="admin/" class="navbar-link">Admin</a>
+        <a href="mockup.html" class="navbar-link active">Preview</a>
+      </nav>
+      <button class="navbar-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamb-line"></span>
+        <span class="hamb-line"></span>
+        <span class="hamb-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay -->
+  <div class="nav-overlay" id="nav-overlay">
+    <a href="admin/" class="nav-overlay-link">Admin</a>
+    <a href="mockup.html" class="nav-overlay-link">Preview</a>
+  </div>
+
+<main>
+  <!-- ==================== MOCKUP SECTION ==================== -->
+  <section class="section" style="padding-top:7rem;">
+    <div class="section-inner">
+      <div class="section-header mx-auto text-center">
+        <span class="eyebrow">Gallery</span>
+        <h2>Mockup SmartLand</h2>
+        <p>Mockup visual untuk Slides 5-9 presentasi - <span style="color:var(--accent);font-weight:500;">Forest Canopy</span></p>
+      </div>
+
+      <div class="bento bento-cols-12">
+
+        <!-- MOCKUP 1: DASHBOARD -->
+        <div class="dobel col-span-12">
+          <div class="dobel-core">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3>Dashboard</h3>
+                <p style="font-size:0.88rem;">Slide 5 - Halaman utama SmartLand</p>
+              </div>
+              <button class="btn-download" onclick="downloadMockup('mockup-dashboard','smartland-dashboard')">Download PNG</button>
+            </div>
+            <canvas id="mockup-dashboard" width="800" height="500"></canvas>
+          </div>
+        </div>
+
+        <!-- MOCKUP 2: PENGUKURAN TANAH -->
+        <div class="dobel col-span-12">
+          <div class="dobel-core">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3>Digital Land Measurement</h3>
+                <p style="font-size:0.88rem;">Slide 6 - Pengukuran tanah digital</p>
+              </div>
+              <button class="btn-download" onclick="downloadMockup('mockup-measurement','smartland-measurement')">Download PNG</button>
+            </div>
+            <canvas id="mockup-measurement" width="800" height="500"></canvas>
+          </div>
+        </div>
+
+        <!-- MOCKUP 3: ESTIMASI NILAI -->
+        <div class="dobel col-span-12">
+          <div class="dobel-core">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3>Land Value Calculator</h3>
+                <p style="font-size:0.88rem;">Slide 8 - Estimasi nilai tanah</p>
+              </div>
+              <button class="btn-download" onclick="downloadMockup('mockup-calculator','smartland-calculator')">Download PNG</button>
+            </div>
+            <canvas id="mockup-calculator" width="800" height="500"></canvas>
+          </div>
+        </div>
+
+        <!-- MOCKUP 4: LAPORAN PDF -->
+        <div class="dobel col-span-12">
+          <div class="dobel-core">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3>Generate Laporan Digital</h3>
+                <p style="font-size:0.88rem;">Slide 9 - Laporan PDF hasil pengukuran</p>
+              </div>
+              <button class="btn-download" onclick="downloadMockup('mockup-report','smartland-report')">Download PNG</button>
+            </div>
+            <canvas id="mockup-report" width="800" height="500"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<section class="section" style="background: var(--bg-secondary);">
+  <div class="container-wide">
+    <div class="grid md:grid-cols-3 gap-8">
+      <div>
+        <div style="margin-bottom: 1rem;">
+          <span style="font-weight: 700; font-size: 1.25rem; color: var(--primary);">SMARTLAND</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">Platform digital untuk pengukuran tanah dan estimasi nilai properti.</p>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4" style="font-family: var(--font-display);">Navigasi</h5>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <a href="index.html">Beranda</a>
+          <a href="tentang.html">Tentang</a>
+          <a href="ukur.html">Ukur Tanah</a>
+          <a href="laporan.html">Laporan</a>
+        </div>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4" style="font-family: var(--font-display);">Kontak</h5>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+          <span>SmartLand</span>
+          <span>&copy; 2026 SmartLand</span>
+        </div>
+      </div>
+    </div>
+    <div class="compass-divider">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 2 12 12 16 14"/></svg>
+    </div>
+    <p style="text-align: center; font-size: 0.8rem; color: var(--text-tertiary);">SmartLand — Platform Pengukuran Tanah Digital</p>
+  </div>
+</section>
+
+<script>
+// ============ HELPERS ============
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, r);
+}
+
+function fillRoundRect(ctx, x, y, w, h, r, fill) {
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, r);
+  ctx.fillStyle = fill;
+  ctx.fill();
+}
+
+function strokeRoundRect(ctx, x, y, w, h, r, stroke, width) {
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, r);
+  ctx.strokeStyle = stroke;
+  ctx.lineWidth = width || 1;
+  ctx.stroke();
+}
+
+function drawShadow(ctx) {
+  ctx.shadowColor = 'rgba(26,77,46,0.15)';
+  ctx.shadowBlur = 12;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 4;
+}
+
+function clearShadow(ctx) {
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
+}
+
+function drawDot(ctx, x, y, r, fill) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI*2);
+  ctx.fillStyle = fill;
+  ctx.fill();
+}
+
+// ============ DOWNLOAD FUNCTION ============
+
+function downloadMockup(id, filename) {
+  const canvas = document.getElementById(id);
+  const link = document.createElement('a');
+  link.download = filename + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+// ============ MOCKUP 1: DASHBOARD ============
+
+function drawDashboard(ctx, w, h) {
+  // Background gradient
+  var grad = ctx.createLinearGradient(0, 0, w, h);
+  grad.addColorStop(0, '#1A4D2E');
+  grad.addColorStop(0.6, '#4F6F52');
+  grad.addColorStop(1, '#F5EFE6');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Sidebar
+  fillRoundRect(ctx, 0, 0, 180, h, 0, '#1A4D2E');
+  // Sidebar logo area
+  fillRoundRect(ctx, 16, 16, 148, 48, 10, 'rgba(79,111,82,0.3)');
+  ctx.fillStyle = '#F5EFE6';
+  ctx.font = 'bold 20px "Playfair Display", serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('SL', 90, 48);
+  ctx.font = '12px "Outfit", sans-serif';
+  ctx.fillStyle = '#E8DFCA';
+  ctx.fillText('SMARTLAND', 90, 62);
+
+  // Sidebar menu items
+  var items = [
+    { label: 'Dashboard', icon: true, active: true },
+    { label: 'Pengukuran', icon: true, active: false },
+    { label: 'Estimasi', icon: true, active: false },
+    { label: 'Laporan', icon: true, active: false },
+    { label: 'Pengaturan', icon: true, active: false },
+  ];
+  items.forEach(function(item, i) {
+    var y = 96 + i * 48;
+    if (item.active) {
+      fillRoundRect(ctx, 10, y, 160, 40, 8, 'rgba(79,111,82,0.35)');
+    }
+    // icon dot
+    drawDot(ctx, 32, y + 20, 4, item.active ? '#E8DFCA' : '#4F6F52');
+    ctx.fillStyle = item.active ? '#F5EFE6' : '#E8DFCA';
+    ctx.font = '14px "Outfit", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(item.label, 48, y + 25);
+  });
+
+  // Main content area
+  // Top header bar
+  fillRoundRect(ctx, 196, 16, w - 212, 52, 10, '#F5EFE6');
+  ctx.fillStyle = '#1A4D2E';
+  ctx.font = 'bold 20px "Playfair Display", serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Dashboard', 216, 50);
+
+  // Right icons on header
+  drawDot(ctx, 720, 42, 6, '#E8DFCA');
+  drawDot(ctx, 742, 42, 6, '#E8DFCA');
+  drawDot(ctx, 764, 42, 6, '#E8DFCA');
+
+  // Stat cards
+  var cards = [
+    { label: 'Total Pengukuran', value: '128', color: '#4F6F52' },
+    { label: 'Estimasi Aktif', value: '47', color: '#4F6F52' },
+    { label: 'Laporan Siap', value: '23', color: '#E8DFCA' },
+  ];
+  cards.forEach(function(card, i) {
+    var cx = 210 + i * 198;
+    var cy = 80;
+    fillRoundRect(ctx, cx, cy, 186, 90, 12, '#F5EFE6');
+    drawShadow(ctx);
+    fillRoundRect(ctx, cx, cy, 186, 90, 12, '#F5EFE6');
+    clearShadow(ctx);
+    // colored top accent
+    fillRoundRect(ctx, cx, cy, 186, 4, 2, card.color);
+    ctx.fillStyle = '#4F6F52';
+    ctx.font = '12px "Outfit", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(card.label, cx + 16, cy + 30);
+    ctx.fillStyle = '#1A4D2E';
+    ctx.font = 'bold 28px "Outfit", sans-serif';
+    ctx.fillText(card.value, cx + 16, cy + 70);
+    // mini icon
+    drawDot(ctx, cx + 160, cy + 28, 16, card.color + '20');
+    drawDot(ctx, cx + 160, cy + 28, 6, card.color);
+  });
+
+  // Map area
+  var mx = 210, my = 186, mw = 570, mh = 288;
+  drawShadow(ctx);
+  fillRoundRect(ctx, mx, my, mw, mh, 12, '#F5EFE6');
+  clearShadow(ctx);
+
+  // Map background
+  fillRoundRect(ctx, mx + 8, my + 8, mw - 16, mh - 16, 8, '#E8DFCA');
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(26,77,46,0.10)';
+  ctx.lineWidth = 1;
+  for (var i = 0; i < 12; i++) {
+    var gx = mx + 8 + (i * ((mw - 16) / 10));
+    ctx.beginPath();
+    ctx.moveTo(gx, my + 8);
+    ctx.lineTo(gx, my + mh - 8);
+    ctx.stroke();
+  }
+  for (var i = 0; i < 8; i++) {
+    var gy = my + 8 + (i * ((mh - 16) / 6));
+    ctx.beginPath();
+    ctx.moveTo(mx + 8, gy);
+    ctx.lineTo(mx + mw - 8, gy);
+    ctx.stroke();
+  }
+
+  // Map polygon (tanah area)
+  ctx.beginPath();
+  ctx.moveTo(mx + 120, my + 80);
+  ctx.lineTo(mx + 300, my + 60);
+  ctx.lineTo(mx + 480, my + 100);
+  ctx.lineTo(mx + 440, my + 220);
+  ctx.lineTo(mx + 200, my + 240);
+  ctx.lineTo(mx + 100, my + 180);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(79,111,82,0.25)';
+  ctx.fill();
+  ctx.strokeStyle = '#4F6F52';
+  ctx.lineWidth = 2.5;
+  ctx.setLineDash([]);
+  ctx.stroke();
+
+  // Red markers
+  drawDot(ctx, mx + 300, my + 140, 8, '#e74c3c');
+  drawDot(ctx, mx + 300, my + 140, 4, '#ffffff');
+  // Marker shadow
+  ctx.beginPath();
+  ctx.arc(mx + 300, my + 150, 3, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(0,0,0,0.15)';
+  ctx.fill();
+
+  // Roads
+  ctx.beginPath();
+  ctx.moveTo(mx + 12, my + 160);
+  ctx.lineTo(mx + 500, my + 120);
+  ctx.strokeStyle = 'rgba(79,111,82,0.3)';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(mx + 200, my + 12);
+  ctx.lineTo(mx + 350, my + mh - 12);
+  ctx.strokeStyle = 'rgba(79,111,82,0.2)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Map search bar
+  fillRoundRect(ctx, mx + 16, my + 16, 180, 32, 6, 'rgba(245,239,230,0.9)');
+  ctx.fillStyle = '#4F6F52';
+  ctx.font = '12px "Outfit", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('  Cari lokasi...', mx + 28, my + 37);
+
+  // Zoom controls
+  fillRoundRect(ctx, mx + mw - 48, my + 16, 32, 32, 6, 'rgba(245,239,230,0.9)');
+  ctx.fillStyle = '#1A4D2E';
+  ctx.font = 'bold 18px "Outfit", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('+', mx + mw - 32, my + 38);
+  fillRoundRect(ctx, mx + mw - 48, my + 52, 32, 32, 6, 'rgba(245,239,230,0.9)');
+  ctx.fillStyle = '#1A4D2E';
+  ctx.font = 'bold 18px "Outfit", sans-serif';
+  ctx.fillText('−', mx + mw - 32, my + 74);
+
+  // Bottom bar label
+  fillRoundRect(ctx, 196, h - 40, w - 196, 40, 0, 'rgba(26,77,46,0.85)');
+  ctx.fillStyle = '#E8DFCA';
+  ctx.font = '11px "Outfit", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('SmartLand Dashboard  ·  Peta Interaktif', 214, h - 16);
+  drawDot(ctx, w - 40, h - 20, 3, '#4F6F52');
+}
+
+// ============ MOCKUP 2: PENGUKURAN TANAH ============
+
+function drawMeasurement(ctx, w, h) {
+  // Background white
+  ctx.fillStyle = '#F5EFE6';
+  ctx.fillRect(0, 0, w, h);
+
+  // Subtle border
+  ctx.strokeStyle = '#E8DFCA';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(1, 1, w - 2, h - 2);
+
+  // Title bar
+  fillRoundRect(ctx, 0, 0, w, 48, 0, '#1A4D2E');
+  ctx.fillStyle = '#F5EFE6';
+  ctx.font = 'bold 16px "Playfair Display", serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('  Digital Land Measurement', 16, 31);
+  // Right badges
+  fillRoundRect(ctx, w - 130, 10, 110, 28, 14, 'rgba(79,111,82,0.3)');
+  ctx.fillStyle = '#E8DFCA';
+  ctx.font = '12px "Outfit", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Mode: Polygon', w - 75, 30);
+
+  // Left panel: Map
+  var lx = 10, ly = 58, lw = 460, lh = 390;
+  drawShadow(ctx);
+  fillRoundRect(ctx, lx, ly, lw, lh, 10, '#F5EFE6');
+  clearShadow(ctx);
+
+  // Map area inside left panel
+  var mapx = lx + 10, mapy = ly + 10, mapw = lw - 20, maph = lh - 20;
+  fillRoundRect(ctx, mapx, mapy, mapw, maph, 6, '#E8DFCA');
+
+  // Grid
+  ctx.strokeStyle = 'rgba(26,77,46,0.08)';
+  ctx.lineWidth = 1;
+  for (var i = 0; i < 10; i++) {
+    var gx = mapx + (i * (mapw / 8));
+    ctx.beginPath();
+    ctx.moveTo(gx, mapy);
+    ctx.lineTo(gx, mapy + maph);
+    ctx.stroke();
+  }
+  for (var i = 0; i < 8; i++) {
+    var gy = mapy + (i * (maph / 6));
+    ctx.beginPath();
+    ctx.moveTo(mapx, gy);
+    ctx.lineTo(mapx + mapw, gy);
+    ctx.stroke();
+  }
+
+  // Polygon — 6 titik batas tanah
+  var pts = [
+    { x: 0.25, y: 0.20 },
+    { x: 0.50, y: 0.10 },
+    { x: 0.75, y: 0.25 },
+    { x: 0.80, y: 0.55 },
+    { x: 0.60, y: 0.80 },
+    { x: 0.30, y: 0.75 },
+    { x: 0.15, y: 0.50 },
+  ];
+  ctx.beginPath();
+  pts.forEach(function(p, i) {
+    var px = mapx + p.x * mapw;
+    var py = mapy + p.y * maph;
+    if (i === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  });
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(79,111,82,0.20)';
+  ctx.fill();
+  ctx.strokeStyle = '#4F6F52';
+  ctx.lineWidth = 2.5;
+  ctx.setLineDash([]);
+  ctx.stroke();
+
+  // Titik-titik batas
+  pts.forEach(function(p) {
+    var px = mapx + p.x * mapw;
+    var py = mapy + p.y * maph;
+    drawDot(ctx, px, py, 7, '#4F6F52');
+    drawDot(ctx, px, py, 3, '#F5EFE6');
+    // label koordinat
+    ctx.fillStyle = '#1A4D2E';
+    ctx.font = '9px "Outfit", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('(' + Math.round(p.x * 100) + ',' + Math.round(p.y * 100) + ')', px + 10, py + 4);
+  });
+
+  // Label area
+  ctx.fillStyle = 'rgba(26,77,46,0.7)';
+  ctx.font = 'bold 14px "Outfit", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('500 m' + '\u00B2', mapx + mapw/2, mapy + maph/2 + 5);
+  ctx.beginPath();
+  ctx.arc(mapx + mapw/2, mapy + maph/2 - 16, 12, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(79,111,82,0.15)';
+  ctx.fill();
+
+  // Right panel: Info
+  var rx = 482, ry = 58, rw = 306, rh = 390;
+  drawShadow(ctx);
+  fillRoundRect(ctx, rx, ry, rw, rh, 10, '#F5EFE6');
+  clearShadow(ctx);
+
+  // Info header
+  fillRoundRect(ctx, rx, ry, rw, 48, 10, '#E8DFCA');
+  fillRoundRect(ctx, rx, ry, rw, 48, 10, '#E8DFCA');
+  ctx.fillStyle = '#1A4D2E';
+  ctx.font = 'bold 16px "Outfit", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('  Info Pengukuran', rx + 16, ry + 30);
+
+  // Info content
+  var iy = ry + 70;
+  var fields = [
+    { label: 'Luas Tanah', value: '500 m' + '\u00B2', big: true },
+    { label: 'Keliling', value: '95.8 m', big: false },
+    { label: 'Jumlah Titik', value: '7 titik', big: false },
+    { label: 'Lokasi', value: 'Jl. Merbabu No. 12', big: false },
+    { label: 'Kecamatan', value: 'Sukoharjo', big: false },
+  ];
+  fields.forEach(function(f) {
+    ctx.fillStyle = '#4F6F52';
+    ctx.font = '12px "Outfit", sans-serif';
+    ctx.fillText(f.label, rx + 20, iy);
+    ctx.fillStyle = '#1A4D2E';
+    if (f.big) {
+      ctx.font = 'bold 28px "Outfit", sans-serif';
+      ctx.fillText(f.value, rx + 20, iy + 34);
+      iy += 56;
+    } else {
+      ctx.font = '15px "Outfit", sans-serif';
+      ctx.fillText(f.value, rx + 20, iy + 22);
+      iy += 38;
+    }
+  });
+
+  // Divider
+  ctx.beginPath();
+  ctx.moveTo(rx + 16, iy);
+  ctx.lineTo(rx + rw - 16, iy);
+  ctx.strokeStyle = '#E8DFCA';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  iy += 16;
+
+  // Action buttons
+  drawShadow(ctx);
+  fillRoundRect(ctx, rx + 20, iy, rw - 40, 40, 8, '#4F6F52');
+  clearShadow(ctx);
+  ctx.fillStyle = '#F5EFE6';
+  ctx.font = 'bold 15px "Outfit", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Simpan Pengukuran', rx + rw/2, iy + 26);
+
+  fillRoundRect(ctx, rx + 20, iy + 52, rw - 40, 40, 8, '#F5EFE6');
+  strokeRoundRect(ctx, rx + 20, iy + 52, rw - 40, 40, 8, '#4F6F52', 1.5);
+  ctx.fillStyle = '#4F6F52';
+  ctx.font = '14px "Outfit", sans-serif';
+  ctx.fillText('Reset', rx + rw/2, iy + 76);
+
+  // Coordinate list at bottom
+  iy += 110;
+  ctx.fillStyle = '#4F6F52';
+  ctx.font = '11px "Outfit", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Koordinat Batas:', rx + 20, iy);
+  ctx.fillStyle = '#4F6F52';
+  ctx.font = '10px "Outfit", sans-serif';
+  var coords = 'T1(25,20) T2(50,10) T3(75,25) T4(80,55) T5(60,80) T6(30,75) T7(15,50)';
+  ctx.fillText(coords, rx + 20, iy + 18);
+
+  // Status bar
+  fillRoundRect(ctx, 0, h - 28, w, 28, 0, '#E8DFCA');
+  ctx.fillStyle = '#4F6F52';
+  ctx.font = '10px "Outfit", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('  Peta Satelit  ·  Zoom: 15x  ·  Klik untuk menambah titik batas', 12, h - 10);
+  drawDot(ctx, w - 22, h - 14, 3, '#4F6F52');
+}
+
+// ============ MOCKUP 3: ESTIMASI NILAI ============
+
+function drawCalculator(ctx, w, h) {
+  // Background
+  ctx.fillStyle = '#F5EFE6';
+  ctx.fillRect(0, 0, w, h);
+
+  // Title bar
+  fillRoundRect(ctx, 0, 0, w, 48, 0, '#1A4D2E');
+  ctx.fillStyle = '#F5EFE6';
+  ctx.font = 'bold 16px "Playfair Display", serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('  Land Value Calculator', 16, 31);
+  fillRoundRect(ctx, w - 160, 10, 140, 28, 14, 'rgba(79,111,82,0.3)');
+  ctx.fillStyle = '#E8DFCA';
+  ctx.font = '12px "Outfit", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Estimasi Otomatis', w - 90, 30);
+
+  // Left panel: Form
+  var lx = 24, ly = 70, lw = 340, lh = 380;
+  drawShadow(ctx);
+  fillRoundRect(ctx, lx, ly, lw, lh, 14, '#F5EFE6');
+  clearShadow(ctx);
+
+  ctx.fillStyle = '#1A4D2E';
+  ctx.font = 'bold 18px "Outfit", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Data Tanah', lx + 24, ly + 36);
+
+  ctx.fillStyle = '#4F6F52';
+  ctx.font = '13px "Outfit", sans-serif';
+  ctx.fillText('Masukkan informasi tanah untuk menghitung estimasi nilai.', lx + 24, ly + 58);
+
+  // Form fields
+  var formFields = [
+    { label: 'Luas Tanah (m' + '\u00B2' + ')', value: '500', unit: 'm' + '\u00B2' },
+    { label: 'Harga per m' + '\u00B2' + ' (Rp)', value: '2.000.000', unit: '/m' + '\u00B2' },
+    { label: 'Lokasi Tanah', value: 'Jl. Merbabu No. 12, Sukoharjo', unit: '' },
+    { label: 'Kecamatan', value: 'Sukoharjo', unit: '' },
+  ];
+  var fy = ly + 84;
+  formFields.forEach(function(f) {
+    ctx.fillStyle = '#1A4D2E';
+    ctx.font = '13px "Outfit", sans-serif';
+    ctx.fillText(f.label, lx + 24, fy);
+
+    fillRoundRect(ctx, lx + 24, fy + 6, lw - 48, 36, 8, '#E8DFCA');
+    ctx.fillStyle = '#1A4D2E';
+    ctx.font = '15px "Outfit", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(f.value, lx + 36, fy + 30);
+    if (f.unit) {
+      ctx.fillStyle = '#4F6F52';
+      ctx.font = '12px "Outfit", sans-serif';
+      ctx.fillText(f.unit, lx + lw - 48, fy + 32);
+    }
+    fy += 62;
+  });
+
+  // Calculate button
+  drawShadow(ctx);
+  fillRoundRect(ctx, lx + 24, fy + 4, lw - 48, 44, 10, '#1A4D2E');
+  clearShadow(ctx);
+  ctx.fillStyle = '#F5EFE6';
+  ctx.font = 'bold 15px "Outfit", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Hitung Estimasi', lx + lw/2, fy + 32);
+
+  // Right panel: Result
+  var rx = 388, ry = 70, rw = 388, rh = 380;
+  drawShadow(ctx);
+  fillRoundRect(ctx, rx, ry, rw, rh, 14, '#F5EFE6');
+  clearShadow(ctx);
+
+  // Gradient result card
+  var ggrad = ctx.createLinearGradient(rx, ry, rx, ry + rh);
+  ggrad.addColorStop(0, '#1A4D2E');
+  ggrad.addColorStop(0.5, '#4F6F52');
+  ggrad.addColorStop(1, '#4F6F52');
+  fillRoundRect(ctx, rx + 16, ry + 20, rw - 32, 180, 12, ggrad);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.7)';
+  ctx.font = '13px "Outfit", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Estimasi Nilai Tanah', rx + rw/2, ry + 52);
+
+  ctx.fillStyle = '#F5EFE6';
+  ctx.font = 'bold 32px "Outfit", sans-serif';
+  ctx.fillText('Rp 1.000.000.000', rx + rw/2, ry + 100);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.font = '13px "Outfit", sans-serif';
+  ctx.fillText('500 m' + '\u00B2' + ' × Rp 2.000.000 /m' + '\u00B2', rx + rw/2, ry + 132);
+
+  // Detail breakdown
+  var dy = ry + 220;
+  ctx.fillStyle = '#1A4D2E';
+  ctx.font = 'bold 16px "Outfit", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Rincian Perhitungan', rx + 24, dy);
+  dy += 28;
+
+  var details = [
+    { label: 'Luas Tanah', value: '500 m' + '\u00B2' },
+    { label: 'Harga per m' + '\u00B2', value: 'Rp 2.000.000' },
+    { label: 'Faktor Lokasi', value: '1.0 (standar)' },
+    { label: 'Estimasi Final', value: 'Rp 1.000.000.000', bold: true },
+  ];
+  details.forEach(function(d) {
+    ctx.fillStyle = '#4F6F52';
+    ctx.font = '13px "Outfit", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(d.label, rx + 24, dy);
+    ctx.textAlign = 'right';
+    if (d.bold) {
+      ctx.fillStyle = '#1A4D2E';
+      ctx.font = 'bold 16px "Outfit", sans-serif';
+    } else {
+      ctx.fillStyle = '#1A4D2E';
+      ctx.font = '14px "Outfit", sans-serif';
+    }
+    ctx.fillText(d.value, rx + rw - 24, dy);
+    dy += 32;
+  });
+
+  // Bottom note
+  dy += 8;
+  ctx.fillStyle = '#E8DFCA';
+  ctx.font = '11px "Outfit", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('* Hasil estimasi bersifat indikatif dan bukan merupakan dokumen legal.', rx + 24, dy);
+
+  // Status bar
+  fillRoundRect(ctx, 0, h - 28, w, 28, 0, '#E8DFCA');
+  ctx.fillStyle = '#4F6F52';
+  ctx.font = '10px "Outfit", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('  SmartLand Calculator  ·  Data harga berdasarkan NJOP 2026', 12, h - 10);
+}
+
+// ============ MOCKUP 4: LAPORAN PDF ============
+
+function drawReport(ctx, w, h) {
+  // Background cream/ivory
+  ctx.fillStyle = '#F5EFE6';
+  ctx.fillRect(0, 0, w, h);
+
+  // Subtle texture lines
+  ctx.strokeStyle = 'rgba(79,111,82,0.06)';
+  ctx.lineWidth = 1;
+  for (var i = 0; i < 20; i++) {
+    ctx.beginPath();
+    ctx.moveTo(0, i * 28);
+    ctx.lineTo(w, i * 28);
+    ctx.stroke();
+  }
+
+  // Top bar
+  fillRoundRect(ctx, 0, 0, w, 48, 0, '#1A4D2E');
+  ctx.fillStyle = '#F5EFE6';
+  ctx.font = 'bold 16px "Playfair Display", serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('  Generate Laporan Digital', 16, 31);
+  fillRoundRect(ctx, w - 180, 10, 160, 28, 14, 'rgba(79,111,82,0.3)');
+  ctx.fillStyle = '#E8DFCA';
+  ctx.font = '12px "Outfit", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('PDF Siap Diunduh', w - 100, 30);
+
+  // PDF Preview card in center
+  var cx = (w - 540) / 2, cy = 62, cw = 540, ch = 376;
+  drawShadow(ctx);
+  fillRoundRect(ctx, cx, cy, cw, ch, 12, '#F5EFE6');
+  clearShadow(ctx);
+
+  // PDF shadow (bottom-right darker)
+  ctx.shadowColor = 'rgba(26,77,46,0.08)';
+  ctx.shadowBlur = 24;
+  ctx.shadowOffsetX = 4;
+  ctx.shadowOffsetY = 8;
+  fillRoundRect(ctx, cx, cy, cw, ch, 12, '#F5EFE6');
+  clearShadow(ctx);
+
+  // PDF Header bar
+  fillRoundRect(ctx, cx + 20, cy + 16, cw - 40, 56, 8, '#1A4D2E');
+  ctx.fillStyle = '#F5EFE6';
+  ctx.font = 'bold 18px "Playfair Display", serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('SMARTLAND', cx + cw/2, cy + 38);
+  ctx.fillStyle = '#E8DFCA';
+  ctx.font = '10px "Outfit", sans-serif';
+  ctx.fillText('LAPORAN PENGUKURAN TANAH', cx + cw/2, cy + 56);
+
+  // PDF Divider
+  var dy = cy + 88;
+  ctx.beginPath();
+  ctx.moveTo(cx + 40, dy);
+  ctx.lineTo(cx + cw - 40, dy);
+  ctx.strokeStyle = '#E8DFCA';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  dy += 8;
+
+  // PDF Content
+  var pdfFields = [
+    { label: 'Nomor Laporan', value: 'LP/SM/2026/00147' },
+    { label: 'Tanggal', value: '19 Juni 2026' },
+    { label: 'Lokasi Tanah', value: 'Jl. Merbabu No. 12, RT 03 RW 05' },
+    { label: 'Kelurahan', value: 'Sukoharjo' },
+    { label: 'Kecamatan', value: 'Sukoharjo' },
+    { label: 'Kota', value: 'Sukoharjo, Jawa Tengah' },
+  ];
+  dy += 8;
+  pdfFields.forEach(function(f) {
+    ctx.fillStyle = '#4F6F52';
+    ctx.font = '11px "Outfit", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(f.label, cx + 44, dy);
+    ctx.fillStyle = '#1A4D2E';
+    ctx.font = '14px "Outfit", sans-serif';
+    ctx.fillText(f.value, cx + 170, dy);
+    dy += 28;
+  });
+
+  // Divider
+  dy += 4;
+  ctx.beginPath();
+  ctx.moveTo(cx + 40, dy);
+  ctx.lineTo(cx + cw - 40, dy);
+  ctx.strokeStyle = '#E8DFCA';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  dy += 16;
+
+  // Hasil Pengukuran section
+  ctx.fillStyle = '#1A4D2E';
+  ctx.font = 'bold 14px "Outfit", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Hasil Pengukuran', cx + 44, dy);
+  dy += 24;
+
+  // Mini map preview
+  fillRoundRect(ctx, cx + 44, dy, 100, 70, 6, '#E8DFCA');
+  ctx.strokeStyle = '#4F6F52';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(cx + 52, dy + 20);
+  ctx.lineTo(cx + 80, dy + 12);
+  ctx.lineTo(cx + 120, dy + 25);
+  ctx.lineTo(cx + 110, dy + 55);
+  ctx.lineTo(cx + 70, dy + 58);
+  ctx.lineTo(cx + 52, dy + 45);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(79,111,82,0.2)';
+  ctx.fill();
+  ctx.stroke();
+
+  // Result values
+  var rv = [
+    { label: 'Luas Tanah', value: '500 m' + '\u00B2' },
+    { label: 'Keliling', value: '95,8 m' },
+    { label: 'Estimasi Nilai', value: 'Rp 1.000.000.000' },
+  ];
+  rv.forEach(function(r) {
+    ctx.fillStyle = '#4F6F52';
+    ctx.font = '11px "Outfit", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(r.label, cx + 168, dy + 16);
+    ctx.fillStyle = '#1A4D2E';
+    ctx.font = 'bold 15px "Outfit", sans-serif';
+    ctx.fillText(r.value, cx + 168, dy + 38);
+    dy += 32;
+  });
+
+  // Coord info
+  dy += 4;
+  ctx.fillStyle = '#4F6F52';
+  ctx.font = '10px "Outfit", sans-serif';
+  ctx.fillText('Titik Koordinat: T1(110.5234,-7.2345) T2(110.5256,-7.2345) T3(110.5256,-7.2378)', cx + 44, dy + 8);
+
+  // PDF Footer
+  var fty = cy + ch - 44;
+  fillRoundRect(ctx, cx + 20, fty, cw - 40, 28, 6, '#E8DFCA');
+  ctx.fillStyle = '#4F6F52';
+  ctx.font = '9px "Outfit", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Dokumen ini dihasilkan secara otomatis oleh SmartLand  ·  Bukan dokumen legal resmi', cx + cw/2, fty + 18);
+
+  // Download PDF button below preview
+  var bty = cy + ch + 20;
+  drawShadow(ctx);
+  fillRoundRect(ctx, cx + 160, bty, 220, 42, 10, '#1A4D2E');
+  clearShadow(ctx);
+  ctx.fillStyle = '#F5EFE6';
+  ctx.font = 'bold 15px "Outfit", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Download PDF', cx + 270, bty + 28);
+
+  // Small download icon
+  ctx.beginPath();
+  ctx.moveTo(cx + 190, bty + 14);
+  ctx.lineTo(cx + 190, bty + 28);
+  ctx.lineTo(cx + 196, bty + 22);
+  ctx.strokeStyle = '#F5EFE6';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(cx + 190, bty + 18, 4, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Status bar
+  fillRoundRect(ctx, 0, h - 28, w, 28, 0, '#E8DFCA');
+  ctx.fillStyle = '#4F6F52';
+  ctx.font = '10px "Outfit", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('  SmartLand Report Generator  ·  Format: PDF/A', 12, h - 10);
+}
+
+// ============ INIT ALL ============
+
+function init() {
+  drawDashboard(document.getElementById('mockup-dashboard').getContext('2d'), 800, 500);
+  drawMeasurement(document.getElementById('mockup-measurement').getContext('2d'), 800, 500);
+  drawCalculator(document.getElementById('mockup-calculator').getContext('2d'), 800, 500);
+  drawReport(document.getElementById('mockup-report').getContext('2d'), 800, 500);
+}
+
+window.addEventListener('load', init);
+</script>
+
+<script src="js/script.js"></script>
+</body>
+</html>

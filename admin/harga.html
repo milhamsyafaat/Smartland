@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Referensi Harga Tanah — SMARTLAND Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .btn-table {
+      transition: all 0.2s;
+      font-family: var(--font-body);
+      cursor: pointer;
+      border: none;
+      font-weight: 500;
+    }
+    .btn-table:active { transform: scale(0.95); }
+  </style>
+</head>
+<body>
+
+<div id="grain"></div>
+
+<!-- FLUID ISLAND NAV -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      SMARTLAND Admin
+    </a>
+    <div class="navbar-links">
+      <a href="index.html" class="navbar-link" data-page="admin">Admin</a>
+      <a href="harga.html" class="navbar-link" data-page="harga">Harga</a>
+      <a href="iklan.html" class="navbar-link" data-page="iklan">Iklan</a>
+      <a href="pengukuran.html" class="navbar-link" data-page="pengukuran">Pengukuran</a>
+      <a href="login.html" class="navbar-link" onclick="localStorage.removeItem('smartland_admin');" style="color:var(--accent);">Logout</a>
+    </div>
+    <button id="menu-toggle" class="navbar-toggle" aria-expanded="false" aria-label="Toggle menu">
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- OVERLAY MENU -->
+<div id="nav-overlay" class="nav-overlay">
+  <a href="index.html" class="nav-overlay-link" data-page="admin">Admin</a>
+  <a href="harga.html" class="nav-overlay-link" data-page="harga">Harga</a>
+  <a href="iklan.html" class="nav-overlay-link" data-page="iklan">Iklan</a>
+  <a href="pengukuran.html" class="nav-overlay-link" data-page="pengukuran">Pengukuran</a>
+  <a href="login.html" class="nav-overlay-link" onclick="localStorage.removeItem('smartland_admin');">Logout</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="section" style="padding-top:8rem;">
+  <div class="section-inner" style="max-width:1100px;">
+
+    <div class="section-header mb-12">
+      <h1>Referensi Harga Tanah</h1>
+      <p>Kelola data harga tanah per meter persegi berdasarkan kecamatan.</p>
+    </div>
+
+    <div class="dobel mb-10">
+      <div class="dobel-core">
+        <h3 style="margin-bottom:1.5rem;font-size:1.25rem;">Tambah / Edit Data Harga</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+          <div>
+            <label for="input-kecamatan" class="form-label">Nama Kecamatan</label>
+            <input type="text" id="input-kecamatan" placeholder="Contoh: Kecamatan A" class="form-input">
+          </div>
+          <div>
+            <label for="input-harga" class="form-label">Harga per m&sup2;</label>
+            <input type="number" id="input-harga" placeholder="Contoh: 1500000" class="form-input">
+          </div>
+          <div>
+            <button id="btn-submit" class="btn btn-primary w-full justify-center">Tambah</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dobel">
+      <div class="dobel-core" style="padding:0;">
+        <div class="table-wrapper" style="border:none;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width:4rem;">No</th>
+                <th>Kecamatan</th>
+                <th>Harga / m&sup2;</th>
+                <th style="width:12rem;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="harga-body">
+              <!-- diisi JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container-wide">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+      <p style="font-size:0.85rem;">&copy; 2026 SMARTLAND. All rights reserved.</p>
+      <p style="font-size:0.75rem;color:var(--text-tertiary);">Admin Panel v2</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  if (localStorage.getItem('smartland_admin') !== 'true') { window.location.href = 'login.html'; }
+
+  function formatRupiah(angka) {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(angka);
+  }
+
+  function loadData() {
+    let version = localStorage.getItem('smartland_harga_ref_v');
+    if (version !== '2') {
+      localStorage.removeItem('smartland_harga_ref');
+      localStorage.setItem('smartland_harga_ref_v', '2');
+    }
+    let data = JSON.parse(localStorage.getItem('smartland_harga_ref') || 'null');
+    if (!data || data.length === 0) {
+      data = [
+        { id: 1, kecamatan: 'Kebayoran Baru, Jakarta Selatan', harga: 25000000 },
+        { id: 2, kecamatan: 'Menteng, Jakarta Pusat', harga: 35000000 },
+        { id: 3, kecamatan: 'Kelapa Gading, Jakarta Utara', harga: 12000000 },
+        { id: 4, kecamatan: 'Pasar Minggu, Jakarta Selatan', harga: 8000000 },
+        { id: 5, kecamatan: 'Dago, Bandung', harga: 8500000 },
+        { id: 6, kecamatan: 'Cihampelas, Bandung', harga: 7000000 },
+        { id: 7, kecamatan: 'Buah Batu, Bandung', harga: 5000000 },
+        { id: 8, kecamatan: 'Sukolilo, Surabaya', harga: 6000000 },
+        { id: 9, kecamatan: 'Wonokromo, Surabaya', harga: 4500000 },
+        { id: 10, kecamatan: 'Tembalang, Semarang', harga: 3500000 },
+        { id: 11, kecamatan: 'Gubug, Grobogan', harga: 350000 },
+        { id: 12, kecamatan: 'Senggigi, Lombok Barat', harga: 1500000 },
+      ];
+      localStorage.setItem('smartland_harga_ref', JSON.stringify(data));
+    }
+
+    const tbody = document.getElementById('harga-body');
+    tbody.innerHTML = data.map((item, i) => `
+      <tr>
+        <td class="py-3">${i+1}</td>
+        <td class="py-3">${item.kecamatan}</td>
+        <td class="py-3 font-mono">${formatRupiah(item.harga)}</td>
+        <td class="py-3">
+          <button onclick='editData(${item.id})' class="btn-table text-sm px-3 py-1.5 rounded-full ml-1" style="background:var(--accent);color:#F5EFE6;">Edit</button>
+          <button onclick='hapusData(${item.id})' class="btn-table text-sm px-3 py-1.5 rounded-full ml-1" style="background:#ef4444;color:#fff;">Hapus</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  let editId = null;
+
+  function tambahData() {
+    const kecamatan = document.getElementById('input-kecamatan').value.trim();
+    const harga = parseInt(document.getElementById('input-harga').value);
+    if (!kecamatan || !harga) { alert('Lengkapi data!'); return; }
+
+    let data = JSON.parse(localStorage.getItem('smartland_harga_ref') || '[]');
+
+    if (editId) {
+      const idx = data.findIndex(d => d.id === editId);
+      if (idx >= 0) { data[idx] = { ...data[idx], kecamatan, harga }; }
+      editId = null;
+      document.getElementById('btn-submit').textContent = 'Tambah';
+    } else {
+      data.push({ id: Date.now(), kecamatan, harga });
+    }
+
+    localStorage.setItem('smartland_harga_ref', JSON.stringify(data));
+    document.getElementById('input-kecamatan').value = '';
+    document.getElementById('input-harga').value = '';
+    loadData();
+  }
+
+  function editData(id) {
+    const data = JSON.parse(localStorage.getItem('smartland_harga_ref') || '[]');
+    const item = data.find(d => d.id === id);
+    if (!item) return;
+    document.getElementById('input-kecamatan').value = item.kecamatan;
+    document.getElementById('input-harga').value = item.harga;
+    editId = id;
+    document.getElementById('btn-submit').textContent = 'Simpan';
+  }
+
+  function hapusData(id) {
+    if (!confirm('Hapus data ini?')) return;
+    let data = JSON.parse(localStorage.getItem('smartland_harga_ref') || '[]');
+    data = data.filter(d => d.id !== id);
+    localStorage.setItem('smartland_harga_ref', JSON.stringify(data));
+    loadData();
+  }
+
+  document.getElementById('btn-submit').addEventListener('click', tambahData);
+
+  loadData();
+</script>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

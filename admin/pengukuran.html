@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SMARTLAND — Data Pengukuran</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="grain"></div>
+
+<!-- FLUID ISLAND NAV -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      SMARTLAND Admin
+    </a>
+    <div class="navbar-links">
+      <a href="index.html" class="navbar-link" data-page="admin">Admin</a>
+      <a href="harga.html" class="navbar-link" data-page="harga">Harga</a>
+      <a href="iklan.html" class="navbar-link" data-page="iklan">Iklan</a>
+      <a href="pengukuran.html" class="navbar-link active" data-page="pengukuran">Pengukuran</a>
+      <a href="login.html" class="navbar-link" onclick="localStorage.removeItem('smartland_admin');">Logout</a>
+    </div>
+    <button class="navbar-toggle" id="menu-toggle" aria-expanded="false" aria-label="Menu">
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE OVERLAY -->
+<div class="nav-overlay" id="nav-overlay">
+  <a href="index.html" class="nav-overlay-link" data-page="admin">Admin</a>
+  <a href="harga.html" class="nav-overlay-link" data-page="harga">Harga</a>
+  <a href="iklan.html" class="nav-overlay-link" data-page="iklan">Iklan</a>
+  <a href="pengukuran.html" class="nav-overlay-link" data-page="pengukuran">Pengukuran</a>
+  <a href="login.html" class="nav-overlay-link" onclick="localStorage.removeItem('smartland_admin');">Logout</a>
+</div>
+
+<!-- MAIN -->
+<main class="container-wide" style="padding-top: 6rem; padding-bottom: 4rem;">
+
+  <!-- SECTION 1 — PAGE HEADER -->
+  <section class="mb-8">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <h2 style="color: var(--text);">Data Pengukuran</h2>
+        <p class="mt-2" style="color: var(--text-secondary);">Kelola seluruh data pengukuran tanah pengguna</p>
+      </div>
+      <button id="btn-hapus-semua" class="btn btn-outline" style="color:#ef4444;border-color:rgba(239,68,68,0.3);">Hapus Semua</button>
+    </div>
+  </section>
+
+  <!-- SECTION 2 — TABLE -->
+  <section>
+    <div class="dobel">
+      <div class="dobel-core" style="padding: 0;">
+        <div class="table-wrapper" style="border: none;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Lokasi</th>
+                <th>Luas (m²)</th>
+                <th>Koordinat</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="ukur-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container-wide">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="font-mono" style="font-size:0.75rem;color:var(--text-tertiary);">SMARTLAND Admin</span>
+      </div>
+      <span class="font-mono" style="font-size:0.75rem;color:var(--text-tertiary);">&copy; 2026 SMARTLAND</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  if (localStorage.getItem('smartland_admin') !== 'true') { window.location.href = 'login.html'; }
+
+  function loadData() {
+    const data = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+    const tbody = document.getElementById('ukur-body');
+    if (data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8" style="color:var(--text-secondary);">Belum ada data pengukuran</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.map(function(item, i) {
+      return (
+        '<tr>' +
+          '<td>' + (i + 1) + '</td>' +
+          '<td>' + (item.lokasi || '-') + '</td>' +
+          '<td class="font-mono">' + (item.luas ? Number(item.luas).toLocaleString('id-ID', {maximumFractionDigits:2}) : '-') + '</td>' +
+          '<td class="font-mono" style="font-size:0.75rem;">' + (item.points ? item.points.length + ' titik' : '-') + '</td>' +
+          '<td>' + (item.tanggal || '-') + '</td>' +
+          '<td><button onclick="hapusData(' + item.id + ')" class="btn" style="background:#ef4444;color:#fff;padding:0.25rem 0.75rem;font-size:0.75rem;border-radius:9999px;border:none;">Hapus</button></td>' +
+        '</tr>'
+      );
+    }).join('');
+  }
+
+  function hapusData(id) {
+    if (!confirm('Hapus data ini?')) return;
+    var data = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+    data = data.filter(function(d) { return d.id !== id; });
+    localStorage.setItem('smartland_measurements', JSON.stringify(data));
+    loadData();
+  }
+
+  document.getElementById('btn-hapus-semua').addEventListener('click', function() {
+    if (!confirm('Hapus semua data pengukuran?')) return;
+    localStorage.setItem('smartland_measurements', '[]');
+    loadData();
+  });
+
+  loadData();
+</script>
+<script src="../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartLand — Platform digital untuk pengukuran tanah, estimasi nilai properti, dan laporan berbasis peta interaktif.">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316a34a'/><text x='16' y='22' font-size='20' text-anchor='middle' fill='white' font-family='serif'>S</text></svg>">
+  <title>Alur Penggunaan — SmartLand</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div id="grain"></div>
+
+  <!-- ==================== FLUID ISLAND NAV ==================== -->
+  <header class="navbar" id="navbar">
+    <div class="navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      SMARTLAND
+    </a>
+      <nav class="navbar-links">
+        <a href="index.html" class="navbar-link" data-page="index">Beranda</a>
+        <a href="tentang.html" class="navbar-link" data-page="tentang">Tentang</a>
+        <a href="dashboard.html" class="navbar-link" data-page="dashboard">Dashboard</a>
+        <a href="ukur.html" class="navbar-link" data-page="ukur">Ukur Tanah</a>
+        <a href="estimasi.html" class="navbar-link" data-page="estimasi">Estimasi</a>
+        <a href="laporan.html" class="navbar-link" data-page="laporan">Laporan</a>
+        <a href="alur.html" class="navbar-link active" data-page="alur">Alur</a>
+        <a href="bisnis.html" class="navbar-link" data-page="bisnis">Bisnis</a>
+        <a href="admin/" class="navbar-link" data-page="admin" title="Admin">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </a>
+      </nav>
+      <button class="navbar-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamb-line"></span>
+        <span class="hamb-line"></span>
+        <span class="hamb-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay -->
+  <div class="nav-overlay" id="nav-overlay">
+    <a href="index.html" class="nav-overlay-link" data-page="index">Beranda</a>
+    <a href="tentang.html" class="nav-overlay-link" data-page="tentang">Tentang</a>
+    <a href="dashboard.html" class="nav-overlay-link" data-page="dashboard">Dashboard</a>
+    <a href="ukur.html" class="nav-overlay-link" data-page="ukur">Ukur Tanah</a>
+    <a href="estimasi.html" class="nav-overlay-link" data-page="estimasi">Estimasi</a>
+    <a href="laporan.html" class="nav-overlay-link" data-page="laporan">Laporan</a>
+    <a href="alur.html" class="nav-overlay-link" data-page="alur">Alur</a>
+    <a href="bisnis.html" class="nav-overlay-link" data-page="bisnis">Bisnis</a>
+    <a href="admin/" class="nav-overlay-link" data-page="admin">Admin</a>
+  </div>
+
+<main>
+  <!-- SECTION 1 — PAGE HEADER -->
+  <section class="section">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8 text-center">
+      <span class="eyebrow">User Flow</span>
+      <h1 class="display-heading text-4xl md:text-5xl lg:text-6xl mt-4 mb-3">Alur Penggunaan SmartLand</h1>
+      <div class="section-divider mx-auto"></div>
+      <p class="max-w-2xl mx-auto mt-4">Berikut adalah langkah-langkah mudah untuk mulai mengukur dan menghitung estimasi nilai tanah menggunakan SmartLand.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 — FLOW VERTIKAL -->
+  <section class="section pt-0">
+    <div class="max-w-3xl mx-auto px-5 lg:px-8">
+      <div class="flex flex-col items-center gap-0">
+
+        <!-- Step 1 -->
+        <div class="dobel w-full max-w-lg reveal">
+          <div class="dobel-core flex items-center gap-4">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;flex-shrink:0;">1</div>
+            <div>
+              <h3 style="color:var(--text);font-size:1.1rem;">Buka Website</h3>
+              <p class="text-sm mt-0.5">Pengguna mengakses SmartLand melalui browser</p>
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow py-2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="dobel w-full max-w-lg reveal reveal-delay-1">
+          <div class="dobel-core flex items-center gap-4">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;flex-shrink:0;">2</div>
+            <div>
+              <h3 style="color:var(--text);font-size:1.1rem;">Pilih Lokasi Tanah</h3>
+              <p class="text-sm mt-0.5">Cari dan pilih lokasi tanah di peta digital interaktif</p>
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow py-2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="dobel w-full max-w-lg reveal reveal-delay-2">
+          <div class="dobel-core flex items-center gap-4">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;flex-shrink:0;">3</div>
+            <div>
+              <h3 style="color:var(--text);font-size:1.1rem;">Tentukan Batas Tanah</h3>
+              <p class="text-sm mt-0.5">Klik titik koordinat batas tanah pada peta</p>
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow py-2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="dobel w-full max-w-lg reveal reveal-delay-3">
+          <div class="dobel-core flex items-center gap-4">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;flex-shrink:0;">4</div>
+            <div>
+              <h3 style="color:var(--text);font-size:1.1rem;">Sistem Hitung Luas</h3>
+              <p class="text-sm mt-0.5">Luas tanah dihitung secara otomatis oleh sistem</p>
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow py-2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="dobel w-full max-w-lg reveal reveal-delay-4">
+          <div class="dobel-core flex items-center gap-4">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;flex-shrink:0;">5</div>
+            <div>
+              <h3 style="color:var(--text);font-size:1.1rem;">Masukkan Harga per m&sup2;</h3>
+              <p class="text-sm mt-0.5">Input harga tanah per meter persegi</p>
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow py-2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="dobel w-full max-w-lg reveal reveal-delay-4">
+          <div class="dobel-core flex items-center gap-4">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;flex-shrink:0;">6</div>
+            <div>
+              <h3 style="color:var(--text);font-size:1.1rem;">Sistem Hitung Estimasi</h3>
+              <p class="text-sm mt-0.5">Estimasi nilai tanah tampil berdasarkan luas dan harga</p>
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow py-2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="dobel w-full max-w-lg reveal reveal-delay-4">
+          <div class="dobel-core flex items-center gap-4">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;flex-shrink:0;">7</div>
+            <div>
+              <h3 style="color:var(--text);font-size:1.1rem;">Unduh Laporan PDF</h3>
+              <p class="text-sm mt-0.5">Download hasil pengukuran sebagai laporan PDF</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 — DIAGRAM SEDERHANA -->
+  <section class="section section-alt">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="eyebrow">Diagram Alur</span>
+        <h2 class="display-heading text-3xl md:text-4xl mt-3">Representasi Visual Flow</h2>
+        <div class="section-divider mx-auto"></div>
+      </div>
+
+      <div class="bento bento-cols-7">
+        <!-- 1 -->
+        <div class="dobel reveal">
+          <div class="dobel-core text-center">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;margin:0 auto 0.75rem;">1</div>
+            <h4 style="color:var(--text);font-size:0.9rem;font-weight:600;">Buka Website</h4>
+          </div>
+        </div>
+        <div class="step-arrow flex items-center justify-center py-2 md:py-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+
+        <!-- 2 -->
+        <div class="dobel reveal reveal-delay-1">
+          <div class="dobel-core text-center">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;margin:0 auto 0.75rem;">2</div>
+            <h4 style="color:var(--text);font-size:0.9rem;font-weight:600;">Pilih Lokasi</h4>
+          </div>
+        </div>
+        <div class="step-arrow flex items-center justify-center py-2 md:py-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+
+        <!-- 3 -->
+        <div class="dobel reveal reveal-delay-2">
+          <div class="dobel-core text-center">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;margin:0 auto 0.75rem;">3</div>
+            <h4 style="color:var(--text);font-size:0.9rem;font-weight:600;">Batas Tanah</h4>
+          </div>
+        </div>
+        <div class="step-arrow flex items-center justify-center py-2 md:py-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+
+        <!-- 4 -->
+        <div class="dobel reveal reveal-delay-3">
+          <div class="dobel-core text-center">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;margin:0 auto 0.75rem;">4</div>
+            <h4 style="color:var(--text);font-size:0.9rem;font-weight:600;">Hitung Luas</h4>
+          </div>
+        </div>
+        <div class="step-arrow flex items-center justify-center py-2 md:py-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+
+        <!-- 5 -->
+        <div class="dobel reveal reveal-delay-4">
+          <div class="dobel-core text-center">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;margin:0 auto 0.75rem;">5</div>
+            <h4 style="color:var(--text);font-size:0.9rem;font-weight:600;">Harga/m&sup2;</h4>
+          </div>
+        </div>
+        <div class="step-arrow flex items-center justify-center py-2 md:py-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+
+        <!-- 6 -->
+        <div class="dobel reveal reveal-delay-4">
+          <div class="dobel-core text-center">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;margin:0 auto 0.75rem;">6</div>
+            <h4 style="color:var(--text);font-size:0.9rem;font-weight:600;">Estimasi</h4>
+          </div>
+        </div>
+        <div class="step-arrow flex items-center justify-center py-2 md:py-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+
+        <!-- 7 -->
+        <div class="dobel reveal reveal-delay-4">
+          <div class="dobel-core text-center">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.95rem;font-weight:500;margin:0 auto 0.75rem;">7</div>
+            <h4 style="color:var(--text);font-size:0.9rem;font-weight:600;">Unduh PDF</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary line -->
+      <div class="mt-10 text-center text-sm" style="color:var(--text-secondary);">
+        <span class="inline-flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Alur lengkap dari akses website hingga unduh laporan PDF
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 — CTA -->
+  <section class="section">
+    <div class="max-w-4xl mx-auto px-5 lg:px-8 text-center">
+      <div class="dobel reveal">
+        <div class="dobel-core text-center">
+          <h2 class="display-heading text-3xl md:text-4xl" style="color:var(--text);margin-bottom:0.75rem;">Siap Mengukur Tanah?</h2>
+          <p class="text-lg mb-6 max-w-lg mx-auto">Mulai gunakan SmartLand sekarang dan dapatkan hasil pengukuran tanah secara digital dengan cepat dan akurat.</p>
+          <a href="dashboard.html" class="btn btn-primary">
+            Mulai Sekarang
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<section class="section" style="background: var(--bg-secondary);">
+  <div class="container-wide">
+    <div class="grid md:grid-cols-3 gap-8">
+      <div>
+        <div style="margin-bottom: 1rem;">
+          <span style="font-weight: 700; font-size: 1.25rem; color: var(--primary);">SMARTLAND</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">Platform digital untuk pengukuran tanah dan estimasi nilai properti.</p>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4" style="font-family: var(--font-display);">Navigasi</h5>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <a href="index.html">Beranda</a>
+          <a href="tentang.html">Tentang</a>
+          <a href="ukur.html">Ukur Tanah</a>
+          <a href="laporan.html">Laporan</a>
+        </div>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4" style="font-family: var(--font-display);">Kontak</h5>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+          <span>SmartLand</span>
+          <span>&copy; 2026 SmartLand</span>
+        </div>
+      </div>
+    </div>
+    <div class="compass-divider">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 2 12 12 16 14"/></svg>
+    </div>
+    <p style="text-align: center; font-size: 0.8rem; color: var(--text-tertiary);">SmartLand — Platform Pengukuran Tanah Digital</p>
+  </div>
+</section>
+
+  <script src="js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SmartLand — Platform digital untuk pengukuran tanah, estimasi nilai properti, dan laporan berbasis peta interaktif.">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316a34a'/><text x='16' y='22' font-size='20' text-anchor='middle' fill='white' font-family='serif'>S</text></svg>">
+  <title>Estimasi Nilai Tanah — SmartLand</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    .result-stat { background: var(--card); border-radius: var(--radius-dob-sm); padding: 1.5rem; }
+    .result-stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); font-family: var(--font-body); }
+    .result-stat-value { font-size: 1.625rem; font-weight: 600; font-family: var(--font-mono); color: var(--text); margin-top: 0.25rem; }
+    .result-total { background: var(--accent-dim); border-radius: var(--radius-dob-sm); padding: 2rem 1.5rem; text-align: center; }
+    .result-total-value { font-size: clamp(1.1rem, 4vw, 2rem); font-weight: 700; font-family: var(--font-mono); color: var(--accent); word-break: break-word; }
+    .result-total-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); opacity: 0.7; font-family: var(--font-body); }
+  </style>
+</head>
+<body>
+
+  <div id="grain"></div>
+
+  <!-- ==================== FLUID ISLAND NAV ==================== -->
+  <header class="navbar" id="navbar">
+    <div class="navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      SMARTLAND
+    </a>
+      <nav class="navbar-links">
+        <a href="index.html" class="navbar-link" data-page="index">Beranda</a>
+        <a href="tentang.html" class="navbar-link" data-page="tentang">Tentang</a>
+        <a href="dashboard.html" class="navbar-link" data-page="dashboard">Dashboard</a>
+        <a href="ukur.html" class="navbar-link" data-page="ukur">Ukur Tanah</a>
+        <a href="estimasi.html" class="navbar-link active" data-page="estimasi">Estimasi</a>
+        <a href="laporan.html" class="navbar-link" data-page="laporan">Laporan</a>
+        <a href="alur.html" class="navbar-link" data-page="alur">Alur</a>
+        <a href="bisnis.html" class="navbar-link" data-page="bisnis">Bisnis</a>
+        <a href="admin/" class="navbar-link" data-page="admin" title="Admin">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </a>
+      </nav>
+      <button class="navbar-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamb-line"></span>
+        <span class="hamb-line"></span>
+        <span class="hamb-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay -->
+  <div class="nav-overlay" id="nav-overlay">
+    <a href="index.html" class="nav-overlay-link" data-page="index">Beranda</a>
+    <a href="tentang.html" class="nav-overlay-link" data-page="tentang">Tentang</a>
+    <a href="dashboard.html" class="nav-overlay-link" data-page="dashboard">Dashboard</a>
+    <a href="ukur.html" class="nav-overlay-link" data-page="ukur">Ukur Tanah</a>
+    <a href="estimasi.html" class="nav-overlay-link" data-page="estimasi">Estimasi</a>
+    <a href="laporan.html" class="nav-overlay-link" data-page="laporan">Laporan</a>
+    <a href="alur.html" class="nav-overlay-link" data-page="alur">Alur</a>
+    <a href="bisnis.html" class="nav-overlay-link" data-page="bisnis">Bisnis</a>
+    <a href="admin/" class="nav-overlay-link" data-page="admin">Admin</a>
+  </div>
+
+<main>
+  <!-- SECTION 1 — PAGE HEADER -->
+  <section class="hero-sm">
+    <div class="hero-content">
+      <div class="hero-text">
+        <span class="eyebrow">Land Value Calculator</span>
+        <h1>Estimasi Nilai Tanah</h1>
+        <p>Hitung estimasi nilai tanah berdasarkan luas dan harga per meter persegi secara otomatis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 — KALKULATOR + RESULT -->
+  <section class="section" style="padding-top:3rem;">
+    <div class="section-inner">
+      <div class="flex flex-col lg:flex-row gap-6">
+
+        <!-- LEFT — FORM -->
+        <div class="lg:w-1/2">
+          <div class="dobel">
+            <div class="dobel-core" style="padding:1.75rem;">
+              <h3>Masukkan Data</h3>
+
+              <div class="space-y-5">
+                <div>
+                  <label class="form-label">Luas Tanah (m&sup2;)</label>
+                  <input type="number" id="luas-tanah" class="form-input" placeholder="Contoh: 500" />
+                </div>
+
+                <div>
+                  <label class="form-label">Harga per m&sup2; (Rp)</label>
+                  <input type="number" id="harga-per-meter" class="form-input" placeholder="Contoh: 2000000" />
+                </div>
+
+                <div>
+                  <label class="form-label">Referensi Harga (Kecamatan)</label>
+                  <select id="ref-harga" class="form-input">
+                    <option value="">Pilih referensi...</option>
+                  </select>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button id="btn-hitung" class="btn btn-forest flex-1">Hitung Estimasi</button>
+                  <button id="btn-ambil-ukur" class="btn btn-outline-forest">Ambil Hasil Ukur</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT — RESULT -->
+        <div class="lg:w-1/2">
+          <div class="dobel">
+            <div class="dobel-core" style="padding:1.75rem;">
+
+              <div id="hasil-placeholder">
+                <div class="text-center py-12">
+                  <div class="text-5xl mb-4 opacity-30" style="font-family:var(--font-display);">&#x1F9EE;</div>
+                  <p style="color:var(--text-secondary);">Masukkan data dan klik "Hitung Estimasi"</p>
+                  <p style="color:var(--text-tertiary);font-size:0.85rem;margin-top:0.5rem;">Rumus: Luas Tanah &times; Harga per m&sup2;</p>
+                </div>
+              </div>
+
+              <div id="hasil-content" class="hidden" style="display:none;">
+                <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-secondary);font-family:var(--font-body);margin-bottom:1.25rem;">Estimasi Nilai Tanah</p>
+                <h3 style="margin-bottom:1.5rem;">Hasil Perhitungan</h3>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="result-stat">
+                    <p class="result-stat-label">Luas Tanah</p>
+                    <p id="hasil-luas" class="result-stat-value">-</p>
+                  </div>
+                  <div class="result-stat">
+                    <p class="result-stat-label">Harga/m&sup2;</p>
+                    <p id="hasil-harga" class="result-stat-value">-</p>
+                  </div>
+                </div>
+
+                <div class="result-total" style="margin-top:1.25rem;">
+                  <p class="result-total-label">Total Estimasi</p>
+                  <p id="hasil-estimasi" class="result-total-value">-</p>
+                  <p id="hasil-detail" style="font-size:0.75rem;color:var(--accent);opacity:0.5;margin-top:0.5rem;">-</p>
+                </div>
+
+                <button id="btn-simpan-laporan" class="btn btn-forest" style="width:100%;margin-top:1.5rem;">Simpan ke Laporan</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 — REFERENSI HARGA -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <div class="text-center mb-12">
+        <span class="badge">Data Real</span>
+        <h2>Referensi Harga Tanah</h2>
+        <p style="margin-top:0.75rem;max-width:36rem;margin-left:auto;margin-right:auto;">
+          Berikut adalah daftar harga tanah per meter persegi berdasarkan kecamatan sebagai referensi dalam menghitung estimasi nilai tanah.
+        </p>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-left">Kecamatan</th>
+                <th class="text-right">Harga per m&sup2;</th>
+              </tr>
+            </thead>
+            <tbody id="ref-tabel-body"></tbody>
+          </table>
+        </div>
+        <p style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.75rem;text-align:center;">* Sumber: Data pasar properti Indonesia (estimasi untuk referensi)</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<section class="section" style="background: var(--bg-secondary);">
+  <div class="container-wide">
+    <div class="grid md:grid-cols-3 gap-8">
+      <div>
+        <div style="margin-bottom: 1rem;">
+          <span style="font-weight: 700; font-size: 1.25rem; color: var(--primary);">SMARTLAND</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">Platform digital untuk pengukuran tanah dan estimasi nilai properti.</p>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4" style="font-family: var(--font-display);">Navigasi</h5>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <a href="index.html">Beranda</a>
+          <a href="tentang.html">Tentang</a>
+          <a href="ukur.html">Ukur Tanah</a>
+          <a href="laporan.html">Laporan</a>
+        </div>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4" style="font-family: var(--font-display);">Kontak</h5>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+          <span>SmartLand</span>
+          <span>&copy; 2026 SmartLand</span>
+        </div>
+      </div>
+    </div>
+    <div class="compass-divider">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 2 12 12 16 14"/></svg>
+    </div>
+    <p style="text-align: center; font-size: 0.8rem; color: var(--text-tertiary);">SmartLand — Platform Pengukuran Tanah Digital</p>
+  </div>
+</section>
+
+  <script src="js/script.js"></script>
+
+  <script>
+    (function() {
+
+      function formatRupiah(angka) {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(angka);
+      }
+
+      function loadReferensi() {
+        var version = localStorage.getItem('smartland_harga_ref_v');
+        if (version !== '2') {
+          localStorage.removeItem('smartland_harga_ref');
+          localStorage.setItem('smartland_harga_ref_v', '2');
+        }
+        var data = JSON.parse(localStorage.getItem('smartland_harga_ref') || 'null');
+        if (!data || data.length === 0) {
+          data = [
+            { kecamatan: 'Kebayoran Baru, Jakarta Selatan', harga: 25000000 },
+            { kecamatan: 'Menteng, Jakarta Pusat', harga: 35000000 },
+            { kecamatan: 'Kelapa Gading, Jakarta Utara', harga: 12000000 },
+            { kecamatan: 'Pasar Minggu, Jakarta Selatan', harga: 8000000 },
+            { kecamatan: 'Dago, Bandung', harga: 8500000 },
+            { kecamatan: 'Cihampelas, Bandung', harga: 7000000 },
+            { kecamatan: 'Buah Batu, Bandung', harga: 5000000 },
+            { kecamatan: 'Sukolilo, Surabaya', harga: 6000000 },
+            { kecamatan: 'Wonokromo, Surabaya', harga: 4500000 },
+            { kecamatan: 'Tembalang, Semarang', harga: 3500000 },
+            { kecamatan: 'Gubug, Grobogan', harga: 350000 },
+            { kecamatan: 'Senggigi, Lombok Barat', harga: 1500000 },
+          ];
+          localStorage.setItem('smartland_harga_ref', JSON.stringify(data));
+        }
+
+        var select = document.getElementById('ref-harga');
+        select.innerHTML = '<option value="">Pilih referensi...</option>' +
+          data.map(function(d) { return '<option value="' + d.harga + '">' + d.kecamatan + ' — ' + formatRupiah(d.harga) + '</option>'; }).join('');
+
+        var tbody = document.getElementById('ref-tabel-body');
+        tbody.innerHTML = data.map(function(d) {
+          return '<tr class="border-b" style="border-color:var(--border);"><td class="py-3 px-4">' + d.kecamatan + '</td><td class="py-3 px-4 text-right font-mono">' + formatRupiah(d.harga) + '</td></tr>';
+        }).join('');
+      }
+
+      document.getElementById('btn-ambil-ukur').addEventListener('click', function() {
+        var data = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+        if (data.length === 0) { showToast('Belum ada hasil pengukuran!', 'error'); return; }
+        var last = data[data.length - 1];
+        document.getElementById('luas-tanah').value = last.luas.toFixed(2);
+      });
+
+      document.getElementById('ref-harga').addEventListener('change', function() {
+        if (this.value) document.getElementById('harga-per-meter').value = parseInt(this.value);
+      });
+
+      document.getElementById('btn-hitung').addEventListener('click', function() {
+        var luas = parseFloat(document.getElementById('luas-tanah').value);
+        var harga = parseFloat(document.getElementById('harga-per-meter').value);
+        if (!luas || !harga) { showToast('Masukkan luas tanah dan harga per meter!', 'error'); return; }
+        var estimasi = luas * harga;
+
+        document.getElementById('hasil-placeholder').style.display = 'none';
+        document.getElementById('hasil-content').style.display = '';
+        document.getElementById('hasil-content').classList.remove('hidden');
+
+        document.getElementById('hasil-luas').textContent = luas.toFixed(2) + ' m\u00B2';
+        document.getElementById('hasil-harga').textContent = formatRupiah(harga) + '/m\u00B2';
+        document.getElementById('hasil-estimasi').textContent = formatRupiah(estimasi);
+        document.getElementById('hasil-detail').textContent = luas.toFixed(2) + ' m\u00B2 \u00D7 ' + formatRupiah(harga) + ' = ' + formatRupiah(estimasi);
+      });
+
+      document.getElementById('btn-simpan-laporan').addEventListener('click', function() {
+        var luas = parseFloat(document.getElementById('luas-tanah').value);
+        var harga = parseFloat(document.getElementById('harga-per-meter').value);
+        if (!luas || !harga) { showToast('Hitung estimasi terlebih dahulu!', 'error'); return; }
+        var estimasi = luas * harga;
+
+        var data = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+        data.push({
+          id: Date.now(),
+          lokasi: 'Estimasi Manual',
+          luas: luas,
+          harga: harga,
+          nilai: estimasi,
+          perimeter: 0,
+          tanggal: new Date().toLocaleDateString('id-ID'),
+          waktu: new Date().toLocaleTimeString('id-ID'),
+          points: []
+        });
+        localStorage.setItem('smartland_measurements', JSON.stringify(data));
+        showToast('Laporan estimasi berhasil disimpan!', 'success');
+      });
+
+      loadReferensi();
+    })();
+  </script>
+
+</body>
+</html>

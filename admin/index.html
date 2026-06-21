@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SMARTLAND — Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body { font-family: var(--font-body); background: var(--bg); }
+    .btn-logout-nav { margin-left: auto; color: var(--text-tertiary); font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: color 0.3s var(--ease-magnetic), background 0.3s var(--ease-magnetic); background: none; border: none; font-family: var(--font-body); padding: 0.4rem 0.85rem; white-space: nowrap; border-radius: var(--radius-pill); }
+    .btn-logout-nav:hover { color: var(--text); background: var(--surface-glass); }
+  </style>
+  <script>tailwind.config={theme:{extend:{}}}</script>
+</head>
+<body>
+
+<div id="grain"></div>
+
+<!-- FLUID ISLAND NAV -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      SMARTLAND Admin
+    </a>
+    <div class="navbar-links">
+      <a href="index.html" class="navbar-link" data-page="admin">Admin</a>
+      <a href="harga.html" class="navbar-link" data-page="harga">Harga</a>
+      <a href="iklan.html" class="navbar-link" data-page="iklan">Iklan</a>
+      <a href="pengukuran.html" class="navbar-link" data-page="pengukuran">Pengukuran</a>
+    </div>
+    <button id="btn-logout" class="btn-logout-nav">Logout</button>
+    <button id="menu-toggle" class="navbar-toggle" aria-label="Menu" aria-expanded="false">
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+    </button>
+  </div>
+</nav>
+
+<div id="nav-overlay" class="nav-overlay">
+  <a href="index.html" class="nav-overlay-link" data-page="admin">Admin</a>
+  <a href="harga.html" class="nav-overlay-link" data-page="harga">Harga</a>
+  <a href="iklan.html" class="nav-overlay-link" data-page="iklan">Iklan</a>
+  <a href="pengukuran.html" class="nav-overlay-link" data-page="pengukuran">Pengukuran</a>
+  <a href="#" id="btn-logout-overlay" class="nav-overlay-link" style="color:var(--accent);">Logout</a>
+</div>
+
+<!-- MAIN -->
+<main class="container-wide" style="padding-top:6rem;padding-bottom:3rem;">
+
+  <!-- SECTION 1 — STATISTICS -->
+  <section class="mb-12">
+    <h2 class="mb-6">Ikhtisar</h2>
+    <div class="bento bento-cols-4">
+      <div class="dobel">
+        <div class="dobel-core stat-card">
+          <div class="stat-label">Total Pengukuran</div>
+          <div class="stat-value" id="total-ukur">0</div>
+        </div>
+      </div>
+      <div class="dobel">
+        <div class="dobel-core stat-card">
+          <div class="stat-label">Total Laporan</div>
+          <div class="stat-value" id="total-lapor">0</div>
+        </div>
+      </div>
+      <div class="dobel">
+        <div class="dobel-core stat-card">
+          <div class="stat-label">Referensi Harga</div>
+          <div class="stat-value" id="total-harga">0</div>
+        </div>
+      </div>
+      <div class="dobel">
+        <div class="dobel-core stat-card">
+          <div class="stat-label">Total Iklan</div>
+          <div class="stat-value" id="total-iklan">0</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 — CHART -->
+  <section class="mb-12">
+    <h2 class="mb-6">Pengukuran per Minggu</h2>
+    <div class="dobel">
+      <div class="dobel-core">
+        <canvas id="chart-pengukuran" height="100"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 — DATA TERBARU -->
+  <section>
+    <h2 class="mb-6">Pengukuran Terbaru</h2>
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Lokasi</th>
+            <th>Luas</th>
+            <th>Tanggal</th>
+          </tr>
+        </thead>
+        <tbody id="recent-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container-wide">
+    <div class="compass-divider">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/></svg>
+    </div>
+    <p class="text-center" style="color:var(--text-tertiary);font-size:0.8rem;">&copy; 2026 SMARTLAND. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="../js/script.js"></script>
+<script>
+  if (localStorage.getItem('smartland_admin') !== 'true') { window.location.href = 'login.html'; }
+
+  const measurements = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+  const reports = JSON.parse(localStorage.getItem('smartland_reports') || '[]');
+  const harga = JSON.parse(localStorage.getItem('smartland_harga_ref') || '[]');
+  const iklan = JSON.parse(localStorage.getItem('smartland_iklan') || '[]');
+
+  document.getElementById('total-ukur').textContent = measurements.length;
+  document.getElementById('total-lapor').textContent = reports.length;
+  document.getElementById('total-harga').textContent = harga.length;
+  document.getElementById('total-iklan').textContent = iklan.length;
+
+  const dayNames = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+  const dayCount = [0, 0, 0, 0, 0, 0, 0];
+  measurements.forEach(function(m) {
+    var d;
+    if (m.timestamp) {
+      d = new Date(m.timestamp);
+    } else if (m.tanggal && m.tanggal.indexOf('/') > -1) {
+      var parts = m.tanggal.split('/');
+      d = new Date(parts[2], parts[1] - 1, parts[0]);
+    } else {
+      d = new Date(m.tanggal);
+    }
+    if (!d || isNaN(d.getTime())) return;
+    var day = d.getDay();
+    var idx = day === 0 ? 6 : day - 1;
+    dayCount[idx]++;
+  });
+
+  var accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#4F6F52';
+  var borderColor = getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || 'rgba(232,223,202,0.08)';
+
+  new Chart(document.getElementById('chart-pengukuran'), {
+    type: 'line',
+    data: {
+      labels: dayNames,
+      datasets: [{
+        label: 'Pengukuran',
+        data: dayCount,
+        borderColor: accentColor,
+        backgroundColor: accentColor + '1a',
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, grid: { color: borderColor } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  const tbody = document.getElementById('recent-body');
+  if (measurements.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-secondary);padding:1.5rem;">Belum ada data</td></tr>';
+  } else {
+    tbody.innerHTML = measurements.slice(-5).reverse().map(function(item, i) {
+      return '<tr>' +
+        '<td>' + (i + 1) + '</td>' +
+        '<td>' + (item.lokasi || '-') + '</td>' +
+        '<td>' + (item.luas ? Number(item.luas).toFixed(2) + ' m²' : '-') + '</td>' +
+        '<td>' + (item.tanggal || '-') + '</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('smartland_admin');
+    window.location.href = 'login.html';
+  }
+
+  document.getElementById('btn-logout').addEventListener('click', handleLogout);
+  document.getElementById('btn-logout-overlay').addEventListener('click', function(e) {
+    e.preventDefault();
+    handleLogout();
+  });
+</script>
+</body>
+</html>

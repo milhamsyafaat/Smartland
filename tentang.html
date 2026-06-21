@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartLand — Platform digital untuk pengukuran tanah, estimasi nilai properti, dan laporan berbasis peta interaktif.">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316a34a'/><text x='16' y='22' font-size='20' text-anchor='middle' fill='white' font-family='serif'>S</text></svg>">
+  <title>Tentang — SmartLand</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="grain"></div>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      SMARTLAND
+    </a>
+    <nav class="navbar-links">
+      <a href="index.html" class="navbar-link" data-page="index">Beranda</a>
+      <a href="tentang.html" class="navbar-link active" data-page="tentang">Tentang</a>
+      <a href="dashboard.html" class="navbar-link" data-page="dashboard">Dashboard</a>
+      <a href="ukur.html" class="navbar-link" data-page="ukur">Ukur Tanah</a>
+      <a href="estimasi.html" class="navbar-link" data-page="estimasi">Estimasi</a>
+      <a href="laporan.html" class="navbar-link" data-page="laporan">Laporan</a>
+      <a href="alur.html" class="navbar-link" data-page="alur">Alur</a>
+      <a href="bisnis.html" class="navbar-link" data-page="bisnis">Bisnis</a>
+      <a href="admin/" class="navbar-link" data-page="admin" title="Admin">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </a>
+    </nav>
+    <button class="navbar-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+    </button>
+  </div>
+</header>
+
+<div class="nav-overlay" id="nav-overlay">
+  <a href="index.html" class="nav-overlay-link" data-page="index">Beranda</a>
+  <a href="tentang.html" class="nav-overlay-link active" data-page="tentang">Tentang</a>
+  <a href="dashboard.html" class="nav-overlay-link" data-page="dashboard">Dashboard</a>
+  <a href="ukur.html" class="nav-overlay-link" data-page="ukur">Ukur Tanah</a>
+  <a href="estimasi.html" class="nav-overlay-link" data-page="estimasi">Estimasi</a>
+  <a href="laporan.html" class="nav-overlay-link" data-page="laporan">Laporan</a>
+  <a href="alur.html" class="nav-overlay-link" data-page="alur">Alur</a>
+  <a href="bisnis.html" class="nav-overlay-link" data-page="bisnis">Bisnis</a>
+  <a href="admin/" class="nav-overlay-link" data-page="admin">Admin</a>
+</div>
+
+<main>
+  <!-- PAGE HEADER -->
+  <section class="section pt-28 md:pt-36">
+    <div class="container-wide">
+      <div class="text-center reveal">
+        <span class="eyebrow" style="color: var(--primary);">Tentang</span>
+        <h1 class="text-3xl md:text-4xl font-bold" style="font-family: var(--font-display);">Apa Itu SMARTLAND?</h1>
+        <p class="text-lg max-w-2xl mx-auto mt-4">Platform digital untuk pengukuran tanah dan estimasi nilai properti berbasis peta.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESKRIPSI -->
+  <section class="section section-alt reveal">
+    <div class="container-wide">
+      <div class="max-w-3xl mx-auto">
+        <div class="dobel">
+          <div class="dobel-core">
+            <p style="font-size: 1.05rem; line-height: 1.7;">
+              SMARTLAND adalah platform berbasis web yang memanfaatkan peta digital untuk membantu pengguna mengukur luas tanah, menentukan batas tanah, serta menghitung estimasi nilai tanah secara otomatis. Cukup melalui browser, tanpa perlu turun ke lapangan.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TUJUAN -->
+  <section class="section reveal">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <span class="eyebrow" style="color: var(--primary);">Tujuan</span>
+        <h2 class="text-3xl font-bold" style="font-family: var(--font-display);">Mengapa SmartLand Dibangun?</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="dobel reveal">
+          <div class="dobel-core">
+            <h3 class="font-bold mb-2">✓ Mempermudah Pengukuran Tanah</h3>
+            <p>Proses pengukuran yang sederhana dan cepat tanpa perlu survei lapangan manual.</p>
+          </div>
+        </div>
+        <div class="dobel reveal reveal-delay-1">
+          <div class="dobel-core">
+            <h3 class="font-bold mb-2">✓ Menghemat Waktu dan Biaya</h3>
+            <p>Kurangi waktu survei awal dan hemat biaya jasa surveyor profesional.</p>
+          </div>
+        </div>
+        <div class="dobel reveal reveal-delay-2">
+          <div class="dobel-core">
+            <h3 class="font-bold mb-2">✓ Menghitung Estimasi Nilai Tanah</h3>
+            <p>Dapatkan estimasi nilai tanah berdasarkan luas dan harga per meter terkini.</p>
+          </div>
+        </div>
+        <div class="dobel reveal reveal-delay-3">
+          <div class="dobel-core">
+            <h3 class="font-bold mb-2">✓ Laporan Digital</h3>
+            <p>Hasil pengukuran tersedia dalam format digital yang mudah dibagikan dan dicetak.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SWOT -->
+  <section class="section section-alt reveal">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <span class="eyebrow" style="color: var(--primary);">Analisis</span>
+        <h2 class="text-3xl font-bold" style="font-family: var(--font-display);">Analisis SWOT</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="dobel" style="border-left: 4px solid #10b981;">
+          <div class="dobel-core">
+            <h3 style="color: #10b981; font-weight: 700; margin-bottom: 1rem;">Kekuatan (Strengths)</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li style="padding: 0.25rem 0;">✓ Mudah digunakan oleh siapa saja</li>
+              <li style="padding: 0.25rem 0;">✓ Pengukuran lebih cepat dari metode manual</li>
+              <li style="padding: 0.25rem 0;">✓ Berbasis digital dan online, akses 24/7</li>
+              <li style="padding: 0.25rem 0;">✓ Gratis tanpa biaya berlangganan</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dobel" style="border-left: 4px solid #ef4444;">
+          <div class="dobel-core">
+            <h3 style="color: #ef4444; font-weight: 700; margin-bottom: 1rem;">Kelemahan (Weaknesses)</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li style="padding: 0.25rem 0;">✗ Bergantung pada koneksi internet</li>
+              <li style="padding: 0.25rem 0;">✗ Akurasi dipengaruhi kualitas citra peta</li>
+              <li style="padding: 0.25rem 0;">✗ Belum terintegrasi dengan data BPN</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dobel" style="border-left: 4px solid var(--primary);">
+          <div class="dobel-core">
+            <h3 style="color: var(--primary); font-weight: 700; margin-bottom: 1rem;">Peluang (Opportunities)</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li style="padding: 0.25rem 0;">✓ Pertumbuhan sektor properti di Indonesia</li>
+              <li style="padding: 0.25rem 0;">✓ Meningkatnya digitalisasi layanan pertanahan</li>
+              <li style="padding: 0.25rem 0;">✓ Potensi kerja sama dengan agen properti</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dobel" style="border-left: 4px solid #f59e0b;">
+          <div class="dobel-core">
+            <h3 style="color: #f59e0b; font-weight: 700; margin-bottom: 1rem;">Ancaman (Threats)</h3>
+            <ul style="list-style: none; padding: 0;">
+              <li style="padding: 0.25rem 0;">✗ Kompetitor dengan fitur serupa</li>
+              <li style="padding: 0.25rem 0;">✗ Perubahan regulasi pertanahan</li>
+              <li style="padding: 0.25rem 0;">✗ Ketergantungan pada API pihak ketiga</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);">
+    <div class="container-wide text-center py-8 reveal">
+      <h2 class="text-2xl md:text-3xl font-bold text-white mb-4" style="font-family: var(--font-display);">Tertarik Menggunakan SmartLand?</h2>
+      <p class="text-white/80 mb-6">Mulai pengukuran tanah sekarang dan dapatkan hasil yang akurat secara instan.</p>
+      <a href="ukur.html" class="btn" style="background: white; color: var(--primary); padding: 1rem 2.5rem; border-radius: 9999px; font-weight: 700;">
+        Mulai Sekarang
+      </a>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<section class="section" style="background: var(--bg-secondary);">
+  <div class="container-wide">
+    <div class="grid md:grid-cols-3 gap-8">
+      <div>
+        <div style="margin-bottom: 1rem;">
+          <span style="font-weight: 700; font-size: 1.25rem; color: var(--primary);">SMARTLAND</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">Platform digital untuk pengukuran tanah dan estimasi nilai properti. Cepat, mudah, akurat.</p>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4" style="font-family: var(--font-display);">Navigasi</h5>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <a href="index.html">Beranda</a>
+          <a href="tentang.html">Tentang</a>
+          <a href="ukur.html">Ukur Tanah</a>
+          <a href="laporan.html">Laporan</a>
+        </div>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4" style="font-family: var(--font-display);">Kontak</h5>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+          <span>SmartLand</span>
+          <span>© 2026 SmartLand</span>
+        </div>
+      </div>
+    </div>
+    <div class="compass-divider">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 2 12 12 16 14"/></svg>
+    </div>
+    <p style="text-align: center; font-size: 0.8rem; color: var(--text-tertiary);">SmartLand — Platform Pengukuran Tanah Digital</p>
+  </div>
+</section>
+
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -134,5 +134,5 @@ localStorage('smartland_iklan')
 - Login: `admin/login.html` → set `localStorage('smartland_admin') = 'true'`
 - Proteksi: `if (localStorage.getItem('smartland_admin') !== 'true')` redirect
 - Credential hardcoded (demo/educational)
-- Users: Admin, Admin
-- Password: admin123, admin123
+- Username: admin
+- Password: smartland123

@@ -51,5 +51,5 @@
 
 ## Akun Admin (Demo)
 
-- **User**: Admin / Admin
-- **Password**: admin123 / admin123
+- **Username**: `admin`
+- **Password**: `smartland123`

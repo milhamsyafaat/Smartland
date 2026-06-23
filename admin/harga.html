@@ -25,15 +25,13 @@
 
 <div id="grain"></div>
 
-<!-- FLUID ISLAND NAV -->
 <nav class="navbar">
   <div class="navbar-inner">
-    <a href="index.html" class="navbar-brand">
-      SMARTLAND Admin
-    </a>
+    <a href="index.html" class="navbar-brand">SMARTLAND Admin</a>
     <div class="navbar-links">
       <a href="index.html" class="navbar-link" data-page="admin">Admin</a>
-      <a href="harga.html" class="navbar-link" data-page="harga">Harga</a>
+      <a href="users.html" class="navbar-link" data-page="users">Users</a>
+      <a href="harga.html" class="navbar-link active" data-page="harga">Harga</a>
       <a href="iklan.html" class="navbar-link" data-page="iklan">Iklan</a>
       <a href="pengukuran.html" class="navbar-link" data-page="pengukuran">Pengukuran</a>
       <a href="login.html" class="navbar-link" onclick="localStorage.removeItem('smartland_admin');" style="color:var(--accent);">Logout</a>
@@ -46,22 +44,21 @@
   </div>
 </nav>
 
-<!-- OVERLAY MENU -->
 <div id="nav-overlay" class="nav-overlay">
   <a href="index.html" class="nav-overlay-link" data-page="admin">Admin</a>
-  <a href="harga.html" class="nav-overlay-link" data-page="harga">Harga</a>
+  <a href="users.html" class="nav-overlay-link" data-page="users">Users</a>
+  <a href="harga.html" class="nav-overlay-link active" data-page="harga">Harga</a>
   <a href="iklan.html" class="nav-overlay-link" data-page="iklan">Iklan</a>
   <a href="pengukuran.html" class="nav-overlay-link" data-page="pengukuran">Pengukuran</a>
   <a href="login.html" class="nav-overlay-link" onclick="localStorage.removeItem('smartland_admin');">Logout</a>
 </div>
 
-<!-- MAIN CONTENT -->
 <main class="section" style="padding-top:8rem;">
   <div class="section-inner" style="max-width:1100px;">
 
     <div class="section-header mb-12">
       <h1>Referensi Harga Tanah</h1>
-      <p>Kelola data harga tanah per meter persegi berdasarkan kecamatan.</p>
+      <p>Kelola data harga tanah per meter persegi berdasarkan lokasi.</p>
     </div>
 
     <div class="dobel mb-10">
@@ -69,8 +66,8 @@
         <h3 style="margin-bottom:1.5rem;font-size:1.25rem;">Tambah / Edit Data Harga</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
           <div>
-            <label for="input-kecamatan" class="form-label">Nama Kecamatan</label>
-            <input type="text" id="input-kecamatan" placeholder="Contoh: Kecamatan A" class="form-input">
+            <label for="input-lokasi" class="form-label">Nama Lokasi</label>
+            <input type="text" id="input-lokasi" placeholder="Contoh: Jakarta Selatan" class="form-input">
           </div>
           <div>
             <label for="input-harga" class="form-label">Harga per m&sup2;</label>
@@ -90,13 +87,12 @@
             <thead>
               <tr>
                 <th style="width:4rem;">No</th>
-                <th>Kecamatan</th>
+                <th>Lokasi</th>
                 <th>Harga / m&sup2;</th>
                 <th style="width:12rem;">Aksi</th>
               </tr>
             </thead>
             <tbody id="harga-body">
-              <!-- diisi JavaScript -->
             </tbody>
           </table>
         </div>
@@ -124,25 +120,43 @@
 
   function loadData() {
     let version = localStorage.getItem('smartland_harga_ref_v');
-    if (version !== '2') {
+    if (version !== '3') {
       localStorage.removeItem('smartland_harga_ref');
-      localStorage.setItem('smartland_harga_ref_v', '2');
+      localStorage.setItem('smartland_harga_ref_v', '3');
     }
     let data = JSON.parse(localStorage.getItem('smartland_harga_ref') || 'null');
     if (!data || data.length === 0) {
       data = [
-        { id: 1, kecamatan: 'Kebayoran Baru, Jakarta Selatan', harga: 25000000 },
-        { id: 2, kecamatan: 'Menteng, Jakarta Pusat', harga: 35000000 },
-        { id: 3, kecamatan: 'Kelapa Gading, Jakarta Utara', harga: 12000000 },
-        { id: 4, kecamatan: 'Pasar Minggu, Jakarta Selatan', harga: 8000000 },
-        { id: 5, kecamatan: 'Dago, Bandung', harga: 8500000 },
-        { id: 6, kecamatan: 'Cihampelas, Bandung', harga: 7000000 },
-        { id: 7, kecamatan: 'Buah Batu, Bandung', harga: 5000000 },
-        { id: 8, kecamatan: 'Sukolilo, Surabaya', harga: 6000000 },
-        { id: 9, kecamatan: 'Wonokromo, Surabaya', harga: 4500000 },
-        { id: 10, kecamatan: 'Tembalang, Semarang', harga: 3500000 },
-        { id: 11, kecamatan: 'Gubug, Grobogan', harga: 350000 },
-        { id: 12, kecamatan: 'Senggigi, Lombok Barat', harga: 1500000 },
+        { id: 1, lokasi: 'Kebayoran Baru, Jakarta Selatan', harga: 35000000 },
+        { id: 2, lokasi: 'Menteng, Jakarta Pusat', harga: 45000000 },
+        { id: 3, lokasi: 'Kelapa Gading, Jakarta Utara', harga: 18000000 },
+        { id: 4, lokasi: 'Pantai Indah Kapuk, Jakarta Utara', harga: 30000000 },
+        { id: 5, lokasi: 'Pasar Minggu, Jakarta Selatan', harga: 12000000 },
+        { id: 6, lokasi: 'BSD City, Tangerang Selatan', harga: 15000000 },
+        { id: 7, lokasi: 'Alam Sutera, Tangerang', harga: 18000000 },
+        { id: 8, lokasi: 'Dago, Bandung', harga: 12000000 },
+        { id: 9, lokasi: 'Cihampelas, Bandung', harga: 9500000 },
+        { id: 10, lokasi: 'Buah Batu, Bandung', harga: 7000000 },
+        { id: 11, lokasi: 'Setiabudi, Bandung', harga: 15000000 },
+        { id: 12, lokasi: 'Sukolilo, Surabaya', harga: 8500000 },
+        { id: 13, lokasi: 'Wonokromo, Surabaya', harga: 6500000 },
+        { id: 14, lokasi: 'Bukit Darmo, Surabaya', harga: 15000000 },
+        { id: 15, lokasi: 'Tembalang, Semarang', harga: 5000000 },
+        { id: 16, lokasi: 'Ngaliyan, Semarang', harga: 3500000 },
+        { id: 17, lokasi: 'Seturan, Yogyakarta', harga: 8000000 },
+        { id: 18, lokasi: 'Mlati, Sleman', harga: 6000000 },
+        { id: 19, lokasi: 'Sukoharjo, Solo', harga: 3500000 },
+        { id: 20, lokasi: 'Banjarsari, Solo', harga: 4500000 },
+        { id: 21, lokasi: 'Gubug, Grobogan', harga: 500000 },
+        { id: 22, lokasi: 'Senggigi, Lombok Barat', harga: 2500000 },
+        { id: 23, lokasi: 'Sanur, Denpasar', harga: 20000000 },
+        { id: 24, lokasi: 'Seminyak, Badung', harga: 35000000 },
+        { id: 25, lokasi: 'Ubud, Gianyar', harga: 15000000 },
+        { id: 26, lokasi: 'Tamalanrea, Makassar', harga: 5000000 },
+        { id: 27, lokasi: 'Panakkukang, Makassar', harga: 8000000 },
+        { id: 28, lokasi: 'Medan Baru, Medan', harga: 10000000 },
+        { id: 29, lokasi: 'Polonia, Medan', harga: 15000000 },
+        { id: 30, lokasi: 'Damai, Balikpapan', harga: 12000000 },
       ];
       localStorage.setItem('smartland_harga_ref', JSON.stringify(data));
     }
@@ -151,7 +165,7 @@
     tbody.innerHTML = data.map((item, i) => `
       <tr>
         <td class="py-3">${i+1}</td>
-        <td class="py-3">${item.kecamatan}</td>
+        <td class="py-3">${item.lokasi}</td>
         <td class="py-3 font-mono">${formatRupiah(item.harga)}</td>
         <td class="py-3">
           <button onclick='editData(${item.id})' class="btn-table text-sm px-3 py-1.5 rounded-full ml-1" style="background:var(--accent);color:#F5EFE6;">Edit</button>
@@ -164,23 +178,23 @@
   let editId = null;
 
   function tambahData() {
-    const kecamatan = document.getElementById('input-kecamatan').value.trim();
+    const lokasi = document.getElementById('input-lokasi').value.trim();
     const harga = parseInt(document.getElementById('input-harga').value);
-    if (!kecamatan || !harga) { alert('Lengkapi data!'); return; }
+    if (!lokasi || !harga) { alert('Lengkapi data!'); return; }
 
     let data = JSON.parse(localStorage.getItem('smartland_harga_ref') || '[]');
 
     if (editId) {
       const idx = data.findIndex(d => d.id === editId);
-      if (idx >= 0) { data[idx] = { ...data[idx], kecamatan, harga }; }
+      if (idx >= 0) { data[idx] = { ...data[idx], lokasi, harga }; }
       editId = null;
       document.getElementById('btn-submit').textContent = 'Tambah';
     } else {
-      data.push({ id: Date.now(), kecamatan, harga });
+      data.push({ id: Date.now(), lokasi, harga });
     }
 
     localStorage.setItem('smartland_harga_ref', JSON.stringify(data));
-    document.getElementById('input-kecamatan').value = '';
+    document.getElementById('input-lokasi').value = '';
     document.getElementById('input-harga').value = '';
     loadData();
   }
@@ -189,18 +203,20 @@
     const data = JSON.parse(localStorage.getItem('smartland_harga_ref') || '[]');
     const item = data.find(d => d.id === id);
     if (!item) return;
-    document.getElementById('input-kecamatan').value = item.kecamatan;
+    document.getElementById('input-lokasi').value = item.lokasi;
     document.getElementById('input-harga').value = item.harga;
     editId = id;
     document.getElementById('btn-submit').textContent = 'Simpan';
   }
 
   function hapusData(id) {
-    if (!confirm('Hapus data ini?')) return;
-    let data = JSON.parse(localStorage.getItem('smartland_harga_ref') || '[]');
-    data = data.filter(d => d.id !== id);
-    localStorage.setItem('smartland_harga_ref', JSON.stringify(data));
-    loadData();
+    showConfirm('Hapus data ini?', function (ok) {
+      if (!ok) return;
+      let data = JSON.parse(localStorage.getItem('smartland_harga_ref') || '[]');
+      data = data.filter(d => d.id !== id);
+      localStorage.setItem('smartland_harga_ref', JSON.stringify(data));
+      loadData();
+    });
   }
 
   document.getElementById('btn-submit').addEventListener('click', tambahData);

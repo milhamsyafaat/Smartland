@@ -67,6 +67,7 @@
             <thead>
               <tr>
                 <th>No</th>
+                <th>User</th>
                 <th>Lokasi</th>
                 <th>Luas (m²)</th>
                 <th>Koordinat</th>
@@ -102,13 +103,14 @@
     const data = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
     const tbody = document.getElementById('ukur-body');
     if (data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8" style="color:var(--text-secondary);">Belum ada data pengukuran</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7" class="text-center py-8" style="color:var(--text-secondary);">Belum ada data pengukuran</td></tr>';
       return;
     }
     tbody.innerHTML = data.map(function(item, i) {
       return (
         '<tr>' +
           '<td>' + (i + 1) + '</td>' +
+          '<td>' + (item.userNama || (item.userId ? 'User #' + item.userId : '-')) + '</td>' +
           '<td>' + (item.lokasi || '-') + '</td>' +
           '<td class="font-mono">' + (item.luas ? Number(item.luas).toLocaleString('id-ID', {maximumFractionDigits:2}) : '-') + '</td>' +
           '<td class="font-mono" style="font-size:0.75rem;">' + (item.points ? item.points.length + ' titik' : '-') + '</td>' +
@@ -120,17 +122,21 @@
   }
 
   function hapusData(id) {
-    if (!confirm('Hapus data ini?')) return;
-    var data = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
-    data = data.filter(function(d) { return d.id !== id; });
-    localStorage.setItem('smartland_measurements', JSON.stringify(data));
-    loadData();
+    showConfirm('Hapus data ini?', function (ok) {
+      if (!ok) return;
+      var data = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+      data = data.filter(function(d) { return d.id !== id; });
+      localStorage.setItem('smartland_measurements', JSON.stringify(data));
+      loadData();
+    });
   }
 
   document.getElementById('btn-hapus-semua').addEventListener('click', function() {
-    if (!confirm('Hapus semua data pengukuran?')) return;
-    localStorage.setItem('smartland_measurements', '[]');
-    loadData();
+    showConfirm('Hapus semua data pengukuran?', function (ok) {
+      if (!ok) return;
+      localStorage.setItem('smartland_measurements', '[]');
+      loadData();
+    });
   });
 
   loadData();

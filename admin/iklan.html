@@ -205,11 +205,13 @@
   }
 
   function hapusData(id) {
-    if (!confirm('Hapus iklan ini?')) return;
-    let data = JSON.parse(localStorage.getItem('smartland_iklan') || '[]');
-    data = data.filter(d => d.id !== id);
-    localStorage.setItem('smartland_iklan', JSON.stringify(data));
-    loadData();
+    showConfirm('Hapus iklan ini?', function (ok) {
+      if (!ok) return;
+      let data = JSON.parse(localStorage.getItem('smartland_iklan') || '[]');
+      data = data.filter(d => d.id !== id);
+      localStorage.setItem('smartland_iklan', JSON.stringify(data));
+      loadData();
+    });
   }
 
   document.getElementById('btn-submit').addEventListener('click', tambahData);

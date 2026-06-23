@@ -17,6 +17,8 @@
   </style>
 </head>
 <body>
+<script>if(!localStorage.getItem('smartland_user'))location.href='login.html';
+(function(){var u=JSON.parse(localStorage.getItem('smartland_user')||'null');if(u){var all=JSON.parse(localStorage.getItem('smartland_users')||'[]');var ud=all.find(function(x){return x.id===u.id});if(!ud||!ud.premium)location.href='premium.html'}})();</script>
 
 <div id="grain"></div>
 
@@ -33,6 +35,7 @@
       <a href="ukur.html" class="navbar-link" data-page="ukur">Ukur Tanah</a>
       <a href="estimasi.html" class="navbar-link" data-page="estimasi">Estimasi</a>
       <a href="laporan.html" class="navbar-link active" data-page="laporan">Laporan</a>
+      <a href="premium.html" class="navbar-link" data-page="premium">Premium</a>
       <a href="alur.html" class="navbar-link" data-page="alur">Alur</a>
       <a href="bisnis.html" class="navbar-link" data-page="bisnis">Bisnis</a>
       <a href="admin/" class="navbar-link" data-page="admin" title="Admin">
@@ -56,6 +59,7 @@
   <a href="ukur.html" class="nav-overlay-link" data-page="ukur">Ukur Tanah</a>
   <a href="estimasi.html" class="nav-overlay-link" data-page="estimasi">Estimasi</a>
   <a href="laporan.html" class="nav-overlay-link active" data-page="laporan">Laporan</a>
+  <a href="premium.html" class="nav-overlay-link" data-page="premium">Premium</a>
   <a href="alur.html" class="nav-overlay-link" data-page="alur">Alur</a>
   <a href="bisnis.html" class="nav-overlay-link" data-page="bisnis">Bisnis</a>
   <a href="admin/" class="nav-overlay-link" data-page="admin">Admin</a>
@@ -180,7 +184,9 @@
     window.loadHistory = function() {
       if (origLoad) origLoad();
 
-      var history = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+      var allData = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+      var user = window.getCurrentUser ? window.getCurrentUser() : null;
+      var history = user ? allData.filter(function(item) { return item.userId === user.id; }) : allData;
       var emptyState = document.getElementById('empty-state');
       var statsSection = document.getElementById('stats-section');
       var tableSection = document.getElementById('table-section');

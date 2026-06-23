@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
     initMeasurementPanel();
   }
 
-  initModalHandlers();
 });
 
 // ================================================
@@ -291,15 +290,19 @@ function updateMeasurementInfo() {
     const { area, perimeter } = calculateArea();
     const areaValue = document.getElementById('area-value');
     const perimeterValue = document.getElementById('perimeter-value');
+    const perimeterResult = document.getElementById('perimeter-result');
     if (areaValue) {
       areaValue.textContent = area > 10000 ? (area / 10000).toFixed(2) + ' ha' : area.toFixed(0) + ' m²';
     }
     if (perimeterValue) {
       perimeterValue.textContent = (perimeter / 1000).toFixed(2) + ' km';
     }
+    if (perimeterResult) perimeterResult.style.display = 'block';
     if (areaResult) areaResult.style.display = 'block';
     if (completeActions) completeActions.style.display = 'flex';
   } else {
+    const perimeterResult = document.getElementById('perimeter-result');
+    if (perimeterResult) perimeterResult.style.display = 'none';
     if (areaResult) areaResult.style.display = 'none';
     if (completeActions) completeActions.style.display = 'none';
   }
@@ -355,7 +358,6 @@ function initMeasurementPanel() {
   const modeMeasure = document.getElementById('mode-measure');
   const btnUndo = document.getElementById('btn-undo');
   const btnClear = document.getElementById('btn-clear');
-  const btnEstimate = document.getElementById('btn-estimate');
   const btnSave = document.getElementById('btn-save');
   const searchInput = document.getElementById('search-input');
 
@@ -385,11 +387,9 @@ function initMeasurementPanel() {
 
   if (btnClear) {
     btnClear.addEventListener('click', () => {
-      if (confirm('Hapus semua titik? Ini tidak bisa dibatalkan.')) clearMeasurement();
+      showConfirm('Hapus semua titik?', function (ok) { if (ok) clearMeasurement(); });
     });
   }
-
-  if (btnEstimate) btnEstimate.addEventListener('click', openEstimateModal);
 
   if (btnSave) btnSave.addEventListener('click', saveMeasurement);
 
@@ -454,79 +454,24 @@ function handleLocationSearch(e) {
 }
 
 // ================================================
-// ESTIMATION MODAL
-// ================================================
-
-function openEstimateModal() {
-  const modal = document.getElementById('estimate-modal');
-  const estimateArea = document.getElementById('estimate-area');
-  const { area } = calculateArea();
-
-  if (estimateArea) {
-    estimateArea.textContent = area > 10000 ? (area / 10000).toFixed(2) + ' ha' : area.toFixed(0) + ' m²';
-  }
-
-  if (modal) {
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-  }
-}
-
-function closeEstimateModal() {
-  const modal = document.getElementById('estimate-modal');
-  if (modal) modal.classList.add('hidden');
-  document.body.style.overflow = '';
-}
-
-function initModalHandlers() {
-  var closeBtn = document.getElementById('close-modal');
-  var confirmBtn = document.getElementById('confirm-estimate');
-  var hargaInput = document.getElementById('harga-permeter');
-  var estimateValue = document.getElementById('estimate-value');
-
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closeEstimateModal);
-  }
-
-  if (hargaInput) {
-    hargaInput.addEventListener('input', function () {
-      var area = calculateArea().area;
-      var harga = parseFloat(hargaInput.value) || 0;
-      var nilai = area * harga;
-      if (estimateValue) {
-        estimateValue.textContent = 'Rp ' + nilai.toLocaleString('id-ID', { maximumFractionDigits: 0 });
-      }
-    });
-  }
-
-  if (confirmBtn) {
-    confirmBtn.addEventListener('click', function () {
-      closeEstimateModal();
-    });
-  }
-
-  var modal = document.getElementById('estimate-modal');
-  if (modal) {
-    modal.addEventListener('click', function (e) {
-      if (e.target === modal) closeEstimateModal();
-    });
-  }
-}
-
-// ================================================
 // SAVE & HISTORY
 // ================================================
 
 function saveMeasurement() {
   const { area, perimeter } = calculateArea();
-  const harga = parseFloat(document.getElementById('harga-permeter')?.value) || 500000;
+  const harga = 0;
   const nilai = area * harga;
+
+  var currentUser = window.getCurrentUser ? window.getCurrentUser() : null;
 
   const measurement = {
     id: Date.now(),
+    userId: currentUser ? currentUser.id : null,
+    userNama: currentUser ? currentUser.nama || currentUser.username : null,
     lokasi: document.getElementById('search-input')?.value || 'Lokasi Tidak Diketahui',
     luas: area,
     perimeter: perimeter,
+    harga: harga,
     nilai: nilai,
     tanggal: new Date().toLocaleDateString('id-ID'),
     waktu: new Date().toLocaleTimeString('id-ID'),
@@ -539,11 +484,14 @@ function saveMeasurement() {
 
   showToast('Pengukuran berhasil disimpan!', 'success');
   clearMeasurement();
-  closeEstimateModal();
 }
 
 function loadHistory() {
-  const history = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+  var currentUser = window.getCurrentUser ? window.getCurrentUser() : null;
+  var allData = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+  var history = currentUser
+    ? allData.filter(function (item) { return item.userId === currentUser.id; })
+    : allData;
   APP_STATE.historyData = history;
 
   const tbody = document.getElementById('reports-body');
@@ -574,15 +522,31 @@ function loadHistory() {
 }
 
 function deleteReport(id) {
-  if (!confirm('Hapus laporan ini?')) return;
-  APP_STATE.historyData = APP_STATE.historyData.filter(h => h.id !== id);
-  localStorage.setItem('smartland_measurements', JSON.stringify(APP_STATE.historyData));
-  loadHistory();
+  showConfirm('Hapus laporan ini?', function (ok) {
+    if (!ok) return;
+    var allData = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+    allData = allData.filter(function(h) { return h.id !== id; });
+    localStorage.setItem('smartland_measurements', JSON.stringify(allData));
+    loadHistory();
+  });
 }
 
 function exportReport(id) {
   var item = APP_STATE.historyData.find(function (h) { return h.id === id; });
   if (!item) return;
+
+  var curUser = JSON.parse(localStorage.getItem('smartland_user') || 'null');
+  if (curUser) {
+    var allUsers = JSON.parse(localStorage.getItem('smartland_users') || '[]');
+    var userData = allUsers.find(function(u) { return u.id === curUser.id; });
+    if (!userData || !userData.premium) {
+      showToast('Fitur ini khusus pengguna Premium. Hubungi admin.', 'error');
+      return;
+    }
+    var logs = JSON.parse(localStorage.getItem('smartland_activity_log') || '[]');
+    logs.push({ id: Date.now(), userId: curUser.id, username: curUser.username, nama: curUser.nama, action: 'export_pdf', timestamp: new Date().toISOString() });
+    localStorage.setItem('smartland_activity_log', JSON.stringify(logs));
+  }
 
   var luas = item.luas > 10000 ? (item.luas / 10000).toFixed(2) + ' ha' : item.luas.toFixed(0) + ' m\u00B2';
   var w = window.open('', '_blank');

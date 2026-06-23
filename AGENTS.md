@@ -6,133 +6,67 @@ Platform digital untuk pengukuran tanah, estimasi nilai properti, dan laporan be
 
 | Layer | Teknologi | Keterangan |
 |-------|-----------|------------|
-| Frontend | Vanilla HTML + CSS + JS | No build step |
-| CSS Framework | Tailwind CSS v3 | CDN (`cdn.tailwindcss.com`) |
-| Design System | `css/style.css` | CSS custom properties, BEM-like |
-| Map | Leaflet 1.9.4 | CDN (`unpkg.com`), OpenStreetMap tiles |
-| Charts | Chart.js | CDN (`cdn.jsdelivr.net`) |
-| Fonts | Sora, Plus Jakarta Sans, JetBrains Mono | Google Fonts |
-| Storage | localStorage | Semua data pengukuran, harga referensi, iklan |
-| Admin | Static HTML + localStorage auth | Hardcoded credentials |
+| Frontend | Vanilla HTML + CSS + JS | No build step, no bundler, no package.json |
+| CSS | Tailwind CSS v3 (CDN) + `css/style.css` | Custom properties + BEM-like |
+| Map | Leaflet 1.9.4 (CDN) | OpenStreetMap tiles |
+| Charts | Chart.js (CDN) | Dashboard & admin |
+| Storage | localStorage | Semua data |
+| Pencarian | Nominatim API (OSM) | Di `ukur.html` via `fetch` |
 
-## Struktur
+## Developer Commands
 
-```
-├── index.html           # Landing page (hero, fitur, CTA)
-├── dashboard.html       # Dashboard (stat cards, chart, aktivitas)
-├── ukur.html            # Ukur tanah via peta Leaflet + marker draggable
-├── estimasi.html        # Kalkulator estimasi nilai tanah
-├── laporan.html         # Riwayat pengukuran + tabel + stat summary
-├── tentang.html         # Tentang
-├── alur.html            # Panduan penggunaan
-├── bisnis.html          # Prospek & model bisnis (SWOT, PESTLE)
-├── kesimpulan.html      # Kesimpulan tim
-├── mockup.html          # Canvas preview (internal tool)
-│
-├── css/
-│   └── style.css        # Design system + semua komponen CSS
-├── js/
-│   ├── script.js        # Navbar, scroll reveal, toast, active nav
-│   └── app.js           # Leaflet map, measurement, history, PDF export
-│
-├── admin/
-│   ├── index.html       # Admin dashboard (chart + stats)
-│   ├── login.html       # Admin login
-│   ├── harga.html       # CRUD harga referensi tanah
-│   ├── iklan.html       # CRUD iklan properti
-│   └── pengukuran.html  # Daftar semua pengukuran
-│
-└── AGENTS.md
-```
+Tidak ada build, test, lint, atau typecheck. Cukup buka file `.html` langsung di browser atau via local server statis. Semua dependency via CDN (`<script>` / `<link>`).
 
-## Brand & Warna
+## Struktur Penting
 
-| Token | Value | Penggunaan |
-|-------|-------|------------|
-| `--primary` | `#16a34a` (hijau forest) | Tombol, link, aksen utama |
-| `--primary-light` | `#22c55e` | Hover state |
-| `--primary-dark` | `#15803d` | Gradient hero |
-| `--accent` | `#d97706` (amber) | Nilai estimasi, badge, aksen sekunder |
-| `--accent-dim` | `rgba(217,119,6,0.1)` | Background total estimasi |
-| Background section | `#f0fdf4` (hijau soft) | `.section-alt` |
-| Card border-top | `3px solid var(--primary)` | `.dash-card`, `.stat-summary` |
+- **`js/script.js`** — ES5 (IIFE, `var`, function expressions). Navbar hamburger, scroll reveal, toast system (`window.showToast`), confirm modal (`window.showConfirm`), active nav link, auth UI injection. Dimuat di **semua halaman**.
+- **`js/app.js`** — ES6+ (`const/let`, arrow functions, template literals, destructuring, optional chaining, spread). Leaflet map, measurement, history CRUD, PDF export. Dimuat hanya di halaman yang membutuhkan.
+- **`css/style.css`** — Design system: CSS custom properties di `:root`, BEM-like classes.
+- **Admin pages** (`admin/`) — Auth via `localStorage('smartland_admin')`, redirect jika tidak login. Setiap halaman admin punya auth check inline.
+- **`js/app.js`** — ES6+. Juga menyertakan `exportReport()` dengan premium check.
 
-Palet pendukung: navy (`#0f172a`) di hero gradient, putih/abu-abu untuk card & text.
+## Konvensi Kode & Gotchas
 
-## Halaman Penting
+- **Script split**: `script.js` ES5, `app.js` ES6+. Jangan mencampur style di dalam file yang sama.
+- **Toast**: Pakai `showToast(msg, 'success'|'error'|'info')` — jangan `alert()` atau `confirm()`.
+- **Confirm**: Pakai `showConfirm(msg, callback)` — callback menerima `true`/`false`. Modal built-in di `script.js`.
+- **Guard NaN**: Saat reduce field `luas` / `nilai` dari localStorage, pakai `(item.luas || 0)`.
+- **Rumus luas**: `area * (111320 ** 2) * Math.cos(midLat)` — jangan dibalik dengan `/`.
+- **Leaflet load order**: `<script src="leaflet.js">` harus sebelum `<script src="app.js">` di `ukur.html`.
+- **Double render** `laporan.html`: `app.js` panggil `loadHistory()`, lalu inline script override `window.loadHistory` untuk update stats. Hanya render tabel **sekali**.
+- **Nominatim**: `ukur.html` fetch `https://nominatim.openstreetmap.org/search` — rate-limited, tanpa API key.
+- **Brand warna**:
+  - `--primary`: `#16a34a` (hijau forest)
+  - `--accent`: `#d97706` (amber)
+  - `--primary-dark`: `#15803d` (gradient hero)
+  - `--accent-dim`: `rgba(217,119,6,0.1)` (bg total estimasi)
+  - `.section-alt` background: `#f0fdf4`
 
-### `ukur.html` — Map & Measurement
+## User Auth (Website)
 
-- Leaflet map dengan tile OSM
-- Dua mode: **Jelajah** (pan map) dan **Ukur** (tambah titik)
-- Marker: `L.marker` + `L.divIcon` (lingkaran hijau 16px, **draggable**)
-- Poligon hijau + garis amber antar titik
-- Hitung luas (`* Math.cos(midLat)`) dan perimeter (haversine)
-- Estimasi modal (harga/m²), simpan ke localStorage
-- **Wajib**: Leaflet JS (`unpkg.com`) di-load **sebelum** `app.js`
-
-### `dashboard.html` — Stat Cards
-
-- 4 kartu: Total Pengukuran, Total Luas, Total Nilai, Rata-rata Luas
-- Font responsive: `clamp(0.85rem, 3.5vw, 1.35rem)` + `word-break`
-- Chart.js line chart (riwayat 7 hari)
-- Tombol **Hapus Semua Data** (konfirmasi ganda)
-- Guard NaN: `(h.luas || 0)` dan `(h.nilai || 0)`
-
-### `laporan.html` — Riwayat & Export
-
-- Tabel dengan kolom: Lokasi, Luas, Perimeter, Estimasi Nilai, Tanggal, Aksi
-- Stat summary di atas tabel (sama dengan dashboard)
-- Tombol **PDF** (buka window baru → print), **Hapus**
-- Inline script patch `window.loadHistory` — panggil `origLoad()` dulu baru update stats
-- Hanya render tabel SEKALI (app.js redundant call dihapus)
-
-### `estimasi.html` — Kalkulator
-
-- Input luas + harga/m² + referensi kecamatan
-- Hitung otomatis, tampilkan hasil + detail
-- Simpan ke laporan (localStorage)
-
-## Notification — Toast System
-
-- Semua `alert()` sudah diganti dengan `showToast(message, type)`
-- Tipe: `'success'` (hijau), `'error'` (merah), `'info'` (biru)
-- CSS di `style.css`: slide-in dari kanan, auto-dismiss 3.5 detik
-- JS global di `script.js:52` (`window.showToast`)
+- **Daftar**: `daftar.html` — simpan di `localStorage('smartland_users')` sebagai `Array<{ id, username, password, nama, premium }>`
+- **Login**: `login.html` — set `localStorage('smartland_user') = { id, username, nama }`
+- **Logout**: `window.logout()` (hapus `smartland_user`, redirect ke `index.html`)
+- **Premium pages**: `dashboard.html`, `laporan.html` — redirect ke `premium.html` jika bukan premium
+- **Protected pages**: `ukur.html`, `estimasi.html` — redirect ke `login.html` jika belum login
+- **Premium**: `premium.html` — daftar premium Rp100rb. Set `user.premium = true` di `smartland_users`.
+- **Public pages**: `index.html`, `tentang.html`, `alur.html`, `bisnis.html`, `kesimpulan.html`, `mockup.html` — bisa diakses tanpa login
+- **Auth UI**: `script.js` inject otomatis tombol "Masuk" (jika guest) atau nama user + "Keluar" (jika login) ke navbar setiap halaman. Admin pages (`admin/`) dan `login.html`/`daftar.html` di-skip.
+- **Data per-user**: Setiap measurement punya `userId` dan `userNama`. `loadHistory()` dan dashboard stats filter by `userId`.
 
 ## Data Flow
 
 ```
-localStorage('smartland_measurements')
-  └─ Array of { id, lokasi, luas, perimeter, nilai, tanggal, waktu, points[] }
-
-localStorage('smartland_harga_ref')
-  └─ Array of { kecamatan, harga }
-
-localStorage('smartland_iklan')
-  └─ Array of { id, judul, agency, harga, link, images[] }
+localStorage('smartland_users')         → Array<{ id, username, password, nama, createdAt, premium }>
+localStorage('smartland_user')          → { id, username, nama }  (session aktif)
+localStorage('smartland_measurements')  → Array<{ id, userId, userNama, lokasi, luas, harga, nilai, ... }>
+localStorage('smartland_harga_ref')     → Array<{ id, lokasi, harga }>
+localStorage('smartland_iklan')         → Array<{ id, judul, agency, harga, link, images[] }>
+localStorage('smartland_activity_log')  → Array<{ id, userId, username, nama, action, timestamp }>
 ```
 
-## Konvensi Kode
+## Admin Auth (demo)
 
-- **JS**: ES5 compatible (var, function expressions, no arrow/const/let in shared files)
-- **CSS**: Custom properties di `:root`, kelas BEM-like (`.dobel`, `.dash-card`)
-- **Styling**: Hindari `alert()` / `confirm()` — pakai `showToast()` / custom modal
-- **Responsive**: Tailwind utility classes + `clamp()` untuk font
-- **Navbar**: Fixed top, hamburger mobile, overlay di luar `<header>`
-
-## Catatan Penting
-
-1. **Leaflet** harus di-load **sebelum** `app.js` di `ukur.html` — atau `L` undefined
-2. **Rumus luas**: `area * (111320^2) * Math.cos(midLat)` — jangan dibalik pake `/`
-3. **`section-alt`** udah diubah background-nya dari `#f9fafb` ke `#f0fdf4` (tint hijau)
-4. **Double render** di `laporan.html` udah difix — `loadHistory()` cuma dipanggil sekali dari inline script
-5. **Semua field `nilai`/`luas`** harus pakai guard `|| 0` saat reduce
-
-## Admin Auth
-
-- Login: `admin/login.html` → set `localStorage('smartland_admin') = 'true'`
-- Proteksi: `if (localStorage.getItem('smartland_admin') !== 'true')` redirect
-- Credential hardcoded (demo/educational)
-- Username: admin
-- Password: smartland123
+- **Username**: `admin` / **Password**: `smartland123`
+- Login set `localStorage('smartland_admin') = 'true'`. Redirect jika tidak login.
+- Admin melihat **semua** data pengukuran (lintas user) + info user di kolom "User".

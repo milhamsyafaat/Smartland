@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SmartLand — Langganan Premium untuk akses penuh fitur pengukuran tanah.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316a34a'/><text x='16' y='22' font-size='20' text-anchor='middle' fill='white' font-family='serif'>S</text></svg>">
+  <title>Premium — SmartLand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .premium-hero { text-align: center; padding: 4rem 1rem 2rem; }
+    .premium-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; max-width: 420px; margin: 0 auto; text-align: center; }
+    .premium-price { font-size: 3rem; font-weight: 800; font-family: var(--font-mono); color: var(--accent); }
+    .premium-price small { font-size: 1rem; font-weight: 400; opacity: 0.6; }
+    .premium-features { list-style: none; padding: 0; margin: 1.5rem 0; text-align: left; }
+    .premium-features li { padding: 0.6rem 0; display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+    .premium-features li:last-child { border-bottom: none; }
+    .premium-features li::before { content: '\2713'; color: var(--primary); font-weight: 700; font-size: 1.1rem; }
+    .premium-badge-lg { display: inline-block; background: var(--accent); color: #fff; font-size: 0.7rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem; }
+    .payment-sim { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 1.25rem; margin: 1.5rem 0; font-size: 0.85rem; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+<script>if(!localStorage.getItem('smartland_user'))location.href='login.html';</script>
+
+<div id="grain"></div>
+
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-brand">SMARTLAND</a>
+    <nav class="navbar-links">
+      <a href="index.html" class="navbar-link" data-page="index">Beranda</a>
+      <a href="tentang.html" class="navbar-link" data-page="tentang">Tentang</a>
+      <a href="dashboard.html" class="navbar-link" data-page="dashboard">Dashboard</a>
+      <a href="ukur.html" class="navbar-link" data-page="ukur">Ukur Tanah</a>
+      <a href="estimasi.html" class="navbar-link" data-page="estimasi">Estimasi</a>
+      <a href="laporan.html" class="navbar-link" data-page="laporan">Laporan</a>
+      <a href="premium.html" class="navbar-link active" data-page="premium">Premium</a>
+    </nav>
+    <button class="navbar-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+      <span class="hamb-line"></span>
+    </button>
+  </div>
+</header>
+
+<div class="nav-overlay" id="nav-overlay">
+  <a href="index.html" class="nav-overlay-link" data-page="index">Beranda</a>
+  <a href="tentang.html" class="nav-overlay-link" data-page="tentang">Tentang</a>
+  <a href="dashboard.html" class="nav-overlay-link" data-page="dashboard">Dashboard</a>
+  <a href="ukur.html" class="nav-overlay-link" data-page="ukur">Ukur Tanah</a>
+  <a href="estimasi.html" class="nav-overlay-link" data-page="estimasi">Estimasi</a>
+  <a href="laporan.html" class="nav-overlay-link" data-page="laporan">Laporan</a>
+  <a href="premium.html" class="nav-overlay-link" data-page="premium">Premium</a>
+</div>
+
+<main>
+  <section class="hero-sm">
+    <div class="hero-content">
+      <div class="hero-text">
+        <span class="eyebrow">Premium Membership</span>
+        <h1>SmartLand Premium</h1>
+        <p>Akses penuh fitur pengukuran tanah, dashboard, riwayat, dan laporan PDF profesional.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 2rem;">
+    <div class="section-inner">
+      <div class="premium-card" id="premium-card">
+        <div class="premium-badge-lg">PREMIUM</div>
+        <div class="premium-price">Rp100.000 <small>/bulan</small></div>
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.5rem;">Akses semua fitur premium SmartLand</p>
+
+        <ul class="premium-features">
+          <li>Dashboard lengkap dengan statistik</li>
+          <li>Riwayat pengukuran tersimpan</li>
+          <li>Laporan PDF premium detail</li>
+          <li>Penyimpanan data tidak terbatas</li>
+          <li>Prioritas support</li>
+        </ul>
+
+        <div id="payment-section">
+          <div class="payment-sim">
+            <p style="font-weight: 600; margin-bottom: 0.5rem;">Simulasi Pembayaran</p>
+            <p style="font-size: 0.8rem;">Transfer ke rekening SmartLand:<br>
+            <strong style="color: var(--text); font-family: var(--font-mono);">BCA 1234567890</strong><br>
+            a.n. SmartLand Premium</p>
+          </div>
+          <button id="btn-aktifkan-premium" class="btn btn-primary" style="width: 100%;">
+            Aktifkan Premium Sekarang
+          </button>
+        </div>
+
+        <div id="premium-activated" style="display: none;">
+          <div style="background: rgba(22,163,74,0.1); border-radius: var(--radius-md); padding: 2rem 1rem; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">&#10003;</div>
+            <h4 style="color: var(--primary);">Premium Aktif!</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">Nikmati semua fitur premium SmartLand.</p>
+            <a href="dashboard.html" class="btn btn-forest" style="display: inline-block; margin-top: 1rem;">Buka Dashboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container-wide">
+    <div class="compass-divider">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/></svg>
+    </div>
+    <p class="text-center" style="color:var(--text-tertiary);font-size:0.8rem;">&copy; 2026 SMARTLAND. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+  (function() {
+    var curUser = JSON.parse(localStorage.getItem('smartland_user') || 'null');
+    if (!curUser) { window.location.href = 'login.html'; return; }
+
+    var allUsers = JSON.parse(localStorage.getItem('smartland_users') || '[]');
+    var userData = allUsers.find(function(u) { return u.id === curUser.id; });
+
+    if (userData && userData.premium) {
+      document.getElementById('payment-section').style.display = 'none';
+      document.getElementById('premium-activated').style.display = '';
+    }
+
+    document.getElementById('btn-aktifkan-premium').addEventListener('click', function() {
+      if (!userData) return;
+
+      userData.premium = true;
+      localStorage.setItem('smartland_users', JSON.stringify(allUsers));
+
+      document.getElementById('payment-section').style.display = 'none';
+      document.getElementById('premium-activated').style.display = '';
+      showToast('Premium berhasil diaktifkan!', 'success');
+    });
+  })();
+</script>
+</body>
+</html>

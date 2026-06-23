@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar — SmartLand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: var(--bg);
+    }
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+    }
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .login-header .login-brand {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.75rem;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+    .login-header .login-sub {
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      color: var(--text-secondary);
+      max-width: none;
+    }
+    .login-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 0.7rem 1rem;
+      border-radius: var(--radius-md);
+      background: rgba(22, 163, 74, 0.1);
+      border: 1px solid rgba(22, 163, 74, 0.2);
+      color: #16a34a;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .success-msg.visible { display: block; }
+    .error-msg {
+      display: none;
+      text-align: center;
+      padding: 0.7rem 1rem;
+      border-radius: var(--radius-md);
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .error-msg.visible { display: block; }
+    .login-links {
+      text-align: center;
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .login-links a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent);
+      transition: opacity 0.3s;
+      text-decoration: none;
+    }
+    .login-links a:hover { opacity: 0.7; text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div id="grain"></div>
+
+<div class="login-page">
+  <div class="login-card dobel">
+    <div class="dobel-core" style="padding: 2.5rem;">
+      <div class="login-header">
+        <div class="login-brand">SMARTLAND</div>
+        <p class="login-sub">Buat akun baru</p>
+      </div>
+
+      <div class="login-title">Daftar</div>
+
+      <form id="daftar-form">
+        <div class="form-group">
+          <label for="nama" class="form-label">Nama Lengkap</label>
+          <input type="text" id="nama" required class="form-input" placeholder="Masukkan nama lengkap">
+        </div>
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" required autocomplete="username"
+                 class="form-input" placeholder="Masukkan username">
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" required autocomplete="new-password"
+                 class="form-input" placeholder="Minimal 6 karakter">
+        </div>
+        <div class="form-group">
+          <label for="password-confirm" class="form-label">Konfirmasi Password</label>
+          <input type="password" id="password-confirm" required
+                 class="form-input" placeholder="Ulangi password">
+        </div>
+
+        <div id="error-msg" class="error-msg"></div>
+        <div id="success-msg" class="success-msg">Pendaftaran berhasil! Mengalihkan...</div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;">
+          Daftar
+        </button>
+      </form>
+
+      <div class="login-links">
+        <a href="login.html">Sudah punya akun? Masuk</a>
+        <a href="index.html">Kembali ke Beranda</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+<script>
+  (function() {
+    if (localStorage.getItem('smartland_user')) {
+      window.location.href = 'dashboard.html';
+      return;
+    }
+
+    document.getElementById('daftar-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      var nama = document.getElementById('nama').value.trim();
+      var username = document.getElementById('username').value.trim();
+      var password = document.getElementById('password').value;
+      var passwordConfirm = document.getElementById('password-confirm').value;
+      var errorEl = document.getElementById('error-msg');
+      var successEl = document.getElementById('success-msg');
+
+      errorEl.classList.remove('visible');
+      successEl.classList.remove('visible');
+
+      if (!nama || !username || !password) {
+        errorEl.textContent = 'Semua field harus diisi.';
+        errorEl.classList.add('visible');
+        return;
+      }
+
+      if (password.length < 6) {
+        errorEl.textContent = 'Password minimal 6 karakter.';
+        errorEl.classList.add('visible');
+        return;
+      }
+
+      if (password !== passwordConfirm) {
+        errorEl.textContent = 'Konfirmasi password tidak cocok.';
+        errorEl.classList.add('visible');
+        return;
+      }
+
+      var users = JSON.parse(localStorage.getItem('smartland_users') || '[]');
+
+      if (users.some(function(u) { return u.username === username; })) {
+        errorEl.textContent = 'Username sudah digunakan.';
+        errorEl.classList.add('visible');
+        return;
+      }
+
+      var newUser = {
+        id: Date.now(),
+        username: username,
+        password: password,
+        nama: nama,
+        createdAt: new Date().toISOString()
+      };
+
+      users.push(newUser);
+      localStorage.setItem('smartland_users', JSON.stringify(users));
+
+      var logs = JSON.parse(localStorage.getItem('smartland_activity_log') || '[]');
+      logs.push({ id: Date.now(), userId: newUser.id, username: newUser.username, nama: newUser.nama, action: 'register', timestamp: new Date().toISOString() });
+      localStorage.setItem('smartland_activity_log', JSON.stringify(logs));
+
+      successEl.classList.add('visible');
+
+      setTimeout(function() {
+        localStorage.setItem('smartland_user', JSON.stringify({ id: newUser.id, username: newUser.username, nama: newUser.nama }));
+        window.location.href = 'dashboard.html';
+      }, 1000);
+    });
+  })();
+</script>
+</body>
+</html>

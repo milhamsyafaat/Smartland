@@ -24,6 +24,8 @@
   </style>
 </head>
 <body>
+<script>if(!localStorage.getItem('smartland_user'))location.href='login.html';
+(function(){var u=JSON.parse(localStorage.getItem('smartland_user')||'null');if(u){var all=JSON.parse(localStorage.getItem('smartland_users')||'[]');var ud=all.find(function(x){return x.id===u.id});if(!ud||!ud.premium)location.href='premium.html'}})();</script>
 
   <div id="grain"></div>
 
@@ -40,6 +42,7 @@
         <a href="ukur.html" class="navbar-link" data-page="ukur">Ukur Tanah</a>
         <a href="estimasi.html" class="navbar-link active" data-page="estimasi">Estimasi</a>
         <a href="laporan.html" class="navbar-link" data-page="laporan">Laporan</a>
+        <a href="premium.html" class="navbar-link" data-page="premium">Premium</a>
         <a href="alur.html" class="navbar-link" data-page="alur">Alur</a>
         <a href="bisnis.html" class="navbar-link" data-page="bisnis">Bisnis</a>
         <a href="admin/" class="navbar-link" data-page="admin" title="Admin">
@@ -64,6 +67,7 @@
     <a href="ukur.html" class="nav-overlay-link" data-page="ukur">Ukur Tanah</a>
     <a href="estimasi.html" class="nav-overlay-link" data-page="estimasi">Estimasi</a>
     <a href="laporan.html" class="nav-overlay-link" data-page="laporan">Laporan</a>
+    <a href="premium.html" class="nav-overlay-link" data-page="premium">Premium</a>
     <a href="alur.html" class="nav-overlay-link" data-page="alur">Alur</a>
     <a href="bisnis.html" class="nav-overlay-link" data-page="bisnis">Bisnis</a>
     <a href="admin/" class="nav-overlay-link" data-page="admin">Admin</a>
@@ -104,7 +108,7 @@
                 </div>
 
                 <div>
-                  <label class="form-label">Referensi Harga (Kecamatan)</label>
+                  <label class="form-label">Referensi Harga (Lokasi)</label>
                   <select id="ref-harga" class="form-input">
                     <option value="">Pilih referensi...</option>
                   </select>
@@ -171,7 +175,7 @@
         <span class="badge">Data Real</span>
         <h2>Referensi Harga Tanah</h2>
         <p style="margin-top:0.75rem;max-width:36rem;margin-left:auto;margin-right:auto;">
-          Berikut adalah daftar harga tanah per meter persegi berdasarkan kecamatan sebagai referensi dalam menghitung estimasi nilai tanah.
+          Berikut adalah daftar harga tanah per meter persegi berdasarkan lokasi sebagai referensi dalam menghitung estimasi nilai tanah.
         </p>
       </div>
 
@@ -180,7 +184,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th class="text-left">Kecamatan</th>
+                <th class="text-left">Lokasi</th>
                 <th class="text-right">Harga per m&sup2;</th>
               </tr>
             </thead>
@@ -239,44 +243,65 @@
 
       function loadReferensi() {
         var version = localStorage.getItem('smartland_harga_ref_v');
-        if (version !== '2') {
+        if (version !== '3') {
           localStorage.removeItem('smartland_harga_ref');
-          localStorage.setItem('smartland_harga_ref_v', '2');
+          localStorage.setItem('smartland_harga_ref_v', '3');
         }
         var data = JSON.parse(localStorage.getItem('smartland_harga_ref') || 'null');
         if (!data || data.length === 0) {
           data = [
-            { kecamatan: 'Kebayoran Baru, Jakarta Selatan', harga: 25000000 },
-            { kecamatan: 'Menteng, Jakarta Pusat', harga: 35000000 },
-            { kecamatan: 'Kelapa Gading, Jakarta Utara', harga: 12000000 },
-            { kecamatan: 'Pasar Minggu, Jakarta Selatan', harga: 8000000 },
-            { kecamatan: 'Dago, Bandung', harga: 8500000 },
-            { kecamatan: 'Cihampelas, Bandung', harga: 7000000 },
-            { kecamatan: 'Buah Batu, Bandung', harga: 5000000 },
-            { kecamatan: 'Sukolilo, Surabaya', harga: 6000000 },
-            { kecamatan: 'Wonokromo, Surabaya', harga: 4500000 },
-            { kecamatan: 'Tembalang, Semarang', harga: 3500000 },
-            { kecamatan: 'Gubug, Grobogan', harga: 350000 },
-            { kecamatan: 'Senggigi, Lombok Barat', harga: 1500000 },
+            { lokasi: 'Kebayoran Baru, Jakarta Selatan', harga: 35000000 },
+            { lokasi: 'Menteng, Jakarta Pusat', harga: 45000000 },
+            { lokasi: 'Kelapa Gading, Jakarta Utara', harga: 18000000 },
+            { lokasi: 'Pantai Indah Kapuk, Jakarta Utara', harga: 30000000 },
+            { lokasi: 'Pasar Minggu, Jakarta Selatan', harga: 12000000 },
+            { lokasi: 'BSD City, Tangerang Selatan', harga: 15000000 },
+            { lokasi: 'Alam Sutera, Tangerang', harga: 18000000 },
+            { lokasi: 'Dago, Bandung', harga: 12000000 },
+            { lokasi: 'Cihampelas, Bandung', harga: 9500000 },
+            { lokasi: 'Buah Batu, Bandung', harga: 7000000 },
+            { lokasi: 'Setiabudi, Bandung', harga: 15000000 },
+            { lokasi: 'Sukolilo, Surabaya', harga: 8500000 },
+            { lokasi: 'Wonokromo, Surabaya', harga: 6500000 },
+            { lokasi: 'Bukit Darmo, Surabaya', harga: 15000000 },
+            { lokasi: 'Tembalang, Semarang', harga: 5000000 },
+            { lokasi: 'Ngaliyan, Semarang', harga: 3500000 },
+            { lokasi: 'Seturan, Yogyakarta', harga: 8000000 },
+            { lokasi: 'Mlati, Sleman', harga: 6000000 },
+            { lokasi: 'Sukoharjo, Solo', harga: 3500000 },
+            { lokasi: 'Banjarsari, Solo', harga: 4500000 },
+            { lokasi: 'Gubug, Grobogan', harga: 500000 },
+            { lokasi: 'Senggigi, Lombok Barat', harga: 2500000 },
+            { lokasi: 'Sanur, Denpasar', harga: 20000000 },
+            { lokasi: 'Seminyak, Badung', harga: 35000000 },
+            { lokasi: 'Ubud, Gianyar', harga: 15000000 },
+            { lokasi: 'Tamalanrea, Makassar', harga: 5000000 },
+            { lokasi: 'Panakkukang, Makassar', harga: 8000000 },
+            { lokasi: 'Medan Baru, Medan', harga: 10000000 },
+            { lokasi: 'Polonia, Medan', harga: 15000000 },
+            { lokasi: 'Damai, Balikpapan', harga: 12000000 },
           ];
           localStorage.setItem('smartland_harga_ref', JSON.stringify(data));
         }
 
         var select = document.getElementById('ref-harga');
         select.innerHTML = '<option value="">Pilih referensi...</option>' +
-          data.map(function(d) { return '<option value="' + d.harga + '">' + d.kecamatan + ' — ' + formatRupiah(d.harga) + '</option>'; }).join('');
+          data.map(function(d) { return '<option value="' + d.harga + '">' + d.lokasi + ' — ' + formatRupiah(d.harga) + '</option>'; }).join('');
 
         var tbody = document.getElementById('ref-tabel-body');
         tbody.innerHTML = data.map(function(d) {
-          return '<tr class="border-b" style="border-color:var(--border);"><td class="py-3 px-4">' + d.kecamatan + '</td><td class="py-3 px-4 text-right font-mono">' + formatRupiah(d.harga) + '</td></tr>';
+          return '<tr class="border-b" style="border-color:var(--border);"><td class="py-3 px-4">' + d.lokasi + '</td><td class="py-3 px-4 text-right font-mono">' + formatRupiah(d.harga) + '</td></tr>';
         }).join('');
       }
+
+      var _lastUkurLokasi = '';
 
       document.getElementById('btn-ambil-ukur').addEventListener('click', function() {
         var data = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
         if (data.length === 0) { showToast('Belum ada hasil pengukuran!', 'error'); return; }
         var last = data[data.length - 1];
         document.getElementById('luas-tanah').value = last.luas.toFixed(2);
+        _lastUkurLokasi = last.lokasi || 'Lokasi Tidak Diketahui';
       });
 
       document.getElementById('ref-harga').addEventListener('change', function() {
@@ -302,13 +327,17 @@
       document.getElementById('btn-simpan-laporan').addEventListener('click', function() {
         var luas = parseFloat(document.getElementById('luas-tanah').value);
         var harga = parseFloat(document.getElementById('harga-per-meter').value);
+        var lokasi = _lastUkurLokasi || 'Estimasi Manual';
         if (!luas || !harga) { showToast('Hitung estimasi terlebih dahulu!', 'error'); return; }
         var estimasi = luas * harga;
+        var curUser = window.getCurrentUser ? window.getCurrentUser() : null;
 
         var data = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
         data.push({
           id: Date.now(),
-          lokasi: 'Estimasi Manual',
+          userId: curUser ? curUser.id : null,
+          userNama: curUser ? curUser.nama || curUser.username : null,
+          lokasi: lokasi,
           luas: luas,
           harga: harga,
           nilai: estimasi,

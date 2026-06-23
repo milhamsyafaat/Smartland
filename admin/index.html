@@ -30,6 +30,7 @@
     </a>
     <div class="navbar-links">
       <a href="index.html" class="navbar-link" data-page="admin">Admin</a>
+      <a href="users.html" class="navbar-link" data-page="users">Users</a>
       <a href="harga.html" class="navbar-link" data-page="harga">Harga</a>
       <a href="iklan.html" class="navbar-link" data-page="iklan">Iklan</a>
       <a href="pengukuran.html" class="navbar-link" data-page="pengukuran">Pengukuran</a>
@@ -45,6 +46,7 @@
 
 <div id="nav-overlay" class="nav-overlay">
   <a href="index.html" class="nav-overlay-link" data-page="admin">Admin</a>
+  <a href="users.html" class="nav-overlay-link" data-page="users">Users</a>
   <a href="harga.html" class="nav-overlay-link" data-page="harga">Harga</a>
   <a href="iklan.html" class="nav-overlay-link" data-page="iklan">Iklan</a>
   <a href="pengukuran.html" class="nav-overlay-link" data-page="pengukuran">Pengukuran</a>
@@ -85,6 +87,53 @@
     </div>
   </section>
 
+  <!-- SECTION 1B — USER STATS -->
+  <section class="mb-12">
+    <div class="bento" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); max-width: 300px;">
+      <div class="dobel">
+        <div class="dobel-core stat-card">
+          <div class="stat-label">Total User Terdaftar</div>
+          <div class="stat-value" id="total-user">0</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 1C — SUMBER PENDAPATAN -->
+  <section class="mb-12">
+    <h2 class="mb-6">Sumber Pendapatan</h2>
+    <div class="bento bento-cols-4">
+      <div class="dobel">
+        <div class="dobel-core stat-card">
+          <div class="stat-label">Paket Premium</div>
+          <div class="stat-value" id="total-premium">0</div>
+          <div style="font-size:0.75rem;color:var(--text-tertiary);margin-top:0.25rem;">Fitur tambahan, dashboard, &amp; riwayat</div>
+        </div>
+      </div>
+      <div class="dobel">
+        <div class="dobel-core stat-card">
+          <div class="stat-label">Laporan PDF Premium</div>
+          <div class="stat-value" id="total-laporan-premium">0</div>
+          <div style="font-size:0.75rem;color:var(--text-tertiary);margin-top:0.25rem;">Laporan profesional detail lengkap</div>
+        </div>
+      </div>
+      <div class="dobel">
+        <div class="dobel-core stat-card">
+          <div class="stat-label">Kerja Sama Agen</div>
+          <div class="stat-value" id="total-agen">0</div>
+          <div style="font-size:0.75rem;color:var(--text-tertiary);margin-top:0.25rem;">Survei awal &amp; analisis nilai tanah</div>
+        </div>
+      </div>
+      <div class="dobel">
+        <div class="dobel-core stat-card">
+          <div class="stat-label">Iklan Properti</div>
+          <div class="stat-value" id="total-iklan-pendapatan">0</div>
+          <div style="font-size:0.75rem;color:var(--text-tertiary);margin-top:0.25rem;">Media promosi agen &amp; pengembang</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- SECTION 2 — CHART -->
   <section class="mb-12">
     <h2 class="mb-6">Pengukuran per Minggu</h2>
@@ -104,11 +153,31 @@
           <tr>
             <th>No</th>
             <th>Lokasi</th>
+            <th>User</th>
             <th>Luas</th>
             <th>Tanggal</th>
           </tr>
         </thead>
         <tbody id="recent-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 4 — AKTIVITAS PENGGUNA -->
+  <section class="mb-12" style="margin-top:3rem;">
+    <h2 class="mb-6">Aktivitas Pengguna</h2>
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>Username</th>
+            <th>Aktivitas</th>
+            <th>Waktu</th>
+          </tr>
+        </thead>
+        <tbody id="activity-body"></tbody>
       </table>
     </div>
   </section>
@@ -132,11 +201,23 @@
   const reports = JSON.parse(localStorage.getItem('smartland_reports') || '[]');
   const harga = JSON.parse(localStorage.getItem('smartland_harga_ref') || '[]');
   const iklan = JSON.parse(localStorage.getItem('smartland_iklan') || '[]');
+  const users = JSON.parse(localStorage.getItem('smartland_users') || '[]');
+  const activityLog = JSON.parse(localStorage.getItem('smartland_activity_log') || '[]');
 
   document.getElementById('total-ukur').textContent = measurements.length;
   document.getElementById('total-lapor').textContent = reports.length;
   document.getElementById('total-harga').textContent = harga.length;
   document.getElementById('total-iklan').textContent = iklan.length;
+  document.getElementById('total-user').textContent = users.length;
+
+  // Sumber Pendapatan stats
+  var premiumUsers = users.filter(function(u) { return u.premium; });
+  var uniqueAgen = new Set();
+  iklan.forEach(function(item) { if (item.agency) uniqueAgen.add(item.agency); });
+  document.getElementById('total-premium').textContent = premiumUsers.length;
+  document.getElementById('total-laporan-premium').textContent = activityLog.filter(function(l) { return l.action === 'export_pdf'; }).length;
+  document.getElementById('total-agen').textContent = uniqueAgen.size;
+  document.getElementById('total-iklan-pendapatan').textContent = iklan.length;
 
   const dayNames = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
   const dayCount = [0, 0, 0, 0, 0, 0, 0];
@@ -184,14 +265,35 @@
 
   const tbody = document.getElementById('recent-body');
   if (measurements.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-secondary);padding:1.5rem;">Belum ada data</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-secondary);padding:1.5rem;">Belum ada data</td></tr>';
   } else {
     tbody.innerHTML = measurements.slice(-5).reverse().map(function(item, i) {
       return '<tr>' +
         '<td>' + (i + 1) + '</td>' +
         '<td>' + (item.lokasi || '-') + '</td>' +
+        '<td>' + (item.userNama || (item.userId ? 'User #' + item.userId : '-')) + '</td>' +
         '<td>' + (item.luas ? Number(item.luas).toFixed(2) + ' m²' : '-') + '</td>' +
         '<td>' + (item.tanggal || '-') + '</td>' +
+        '</tr>';
+    }).join('');
+
+  }
+
+  // Aktivitas Pengguna
+  const activityBody = document.getElementById('activity-body');
+  if (activityLog.length === 0) {
+    activityBody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-secondary);padding:1.5rem;">Belum ada aktivitas</td></tr>';
+  } else {
+    var labels = { login: 'Login', register: 'Daftar Akun', export_pdf: 'Export PDF Premium' };
+    activityBody.innerHTML = activityLog.slice().reverse().slice(0, 20).map(function(item, i) {
+      var t = item.timestamp ? new Date(item.timestamp) : null;
+      var waktu = t ? t.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
+      return '<tr>' +
+        '<td>' + (i + 1) + '</td>' +
+        '<td>' + (item.nama || '-') + '</td>' +
+        '<td>' + (item.username || '-') + '</td>' +
+        '<td>' + (labels[item.action] || item.action) + '</td>' +
+        '<td>' + waktu + '</td>' +
         '</tr>';
     }).join('');
   }

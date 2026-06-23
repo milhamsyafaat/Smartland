@@ -34,6 +34,8 @@
   </style>
 </head>
 <body>
+<script>if(!localStorage.getItem('smartland_user'))location.href='login.html';
+(function(){var u=JSON.parse(localStorage.getItem('smartland_user')||'null');if(u){var all=JSON.parse(localStorage.getItem('smartland_users')||'[]');var ud=all.find(function(x){return x.id===u.id});if(!ud||!ud.premium)location.href='premium.html';document.getElementById('premium-badge').style.display='inline'}})();</script>
 
 <div id="grain"></div>
 
@@ -50,6 +52,7 @@
       <a href="ukur.html" class="navbar-link" data-page="ukur">Ukur Tanah</a>
       <a href="estimasi.html" class="navbar-link" data-page="estimasi">Estimasi</a>
       <a href="laporan.html" class="navbar-link" data-page="laporan">Laporan</a>
+      <a href="premium.html" class="navbar-link" data-page="premium">Premium</a>
       <a href="alur.html" class="navbar-link" data-page="alur">Alur</a>
       <a href="bisnis.html" class="navbar-link" data-page="bisnis">Bisnis</a>
       <a href="admin/" class="navbar-link" data-page="admin" title="Admin">
@@ -73,6 +76,7 @@
   <a href="ukur.html" class="nav-overlay-link" data-page="ukur">Ukur Tanah</a>
   <a href="estimasi.html" class="nav-overlay-link" data-page="estimasi">Estimasi</a>
   <a href="laporan.html" class="nav-overlay-link" data-page="laporan">Laporan</a>
+  <a href="premium.html" class="nav-overlay-link" data-page="premium">Premium</a>
   <a href="alur.html" class="nav-overlay-link" data-page="alur">Alur</a>
   <a href="bisnis.html" class="nav-overlay-link" data-page="bisnis">Bisnis</a>
   <a href="admin/" class="nav-overlay-link" data-page="admin">Admin</a>
@@ -84,7 +88,10 @@
     <div class="container-wide">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
-          <h1 class="text-3xl md:text-4xl font-bold" style="font-family: var(--font-display);">Dashboard</h1>
+          <div class="flex items-center gap-3 flex-wrap">
+            <h1 class="text-3xl md:text-4xl font-bold" style="font-family: var(--font-display);">Dashboard</h1>
+            <span id="premium-badge" style="display:none;background:var(--accent);color:#fff;font-size:0.65rem;padding:0.2rem 0.6rem;border-radius:9999px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;">PREMIUM</span>
+          </div>
           <p style="color: var(--text-secondary); margin-top: 0.5rem;">Ringkasan aktivitas pengukuran dan estimasi tanah.</p>
         </div>
         <a href="ukur.html" class="btn btn-primary" style="white-space: nowrap;">
@@ -239,8 +246,14 @@
 <script src="js/app.js"></script>
 <script>
   (function() {
+    function getUserMeasurements() {
+      var allData = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+      var user = window.getCurrentUser ? window.getCurrentUser() : null;
+      return user ? allData.filter(function(item) { return item.userId === user.id; }) : allData;
+    }
+
     function updateDashboard() {
-      var history = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+      var history = getUserMeasurements();
       var totalCount = history.length;
       var totalLuas = history.reduce(function(sum, h) { return sum + (h.luas || 0); }, 0);
       var totalNilai = history.reduce(function(sum, h) { return sum + (h.nilai || 0); }, 0);
@@ -275,7 +288,7 @@
     // Chart
     var ctx = document.getElementById('measurement-chart');
     if (ctx) {
-      var history = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+      var history = getUserMeasurements();
       var dates = {};
       history.forEach(function(h) { dates[h.tanggal] = (dates[h.tanggal] || 0) + 1; });
       var labels = Object.keys(dates).slice(-7);
@@ -323,12 +336,16 @@
   })();
 
   function resetAllData() {
-    if (confirm('Hapus semua data pengukuran? Tindakan ini tidak bisa dibatalkan.')) {
-      if (confirm('Yakin? Semua data pengukuran, estimasi, dan laporan akan hilang.')) {
-        localStorage.removeItem('smartland_measurements');
-        location.reload();
+    showConfirm('Hapus semua data pengukuran Anda?', function (ok) {
+      if (!ok) return;
+      var user = window.getCurrentUser ? window.getCurrentUser() : null;
+      if (user) {
+        var allData = JSON.parse(localStorage.getItem('smartland_measurements') || '[]');
+        allData = allData.filter(function(item) { return item.userId !== user.id; });
+        localStorage.setItem('smartland_measurements', JSON.stringify(allData));
       }
-    }
+      location.reload();
+    });
   }
 </script>
 </body>
